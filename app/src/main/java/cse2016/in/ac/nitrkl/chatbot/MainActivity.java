@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Toast.makeText(this,"This is me",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"this is u",Toast.LENGTH_LONG).show();
         Toast.makeText(this,"This is Deepika",Toast.LENGTH_LONG).show();
 
     }
