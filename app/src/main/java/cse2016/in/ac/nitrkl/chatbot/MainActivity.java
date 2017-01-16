@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity  implements AIListener{
         } catch (AIServiceException e) {
             e.printStackTrace();
         }
+
+        aiService.stopListening();
     }
 
 
