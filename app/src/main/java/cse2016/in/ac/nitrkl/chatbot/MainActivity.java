@@ -8,10 +8,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+import ai.api.AIListener;
+import ai.api.AIServiceException;
+import ai.api.android.AIConfiguration;
+import ai.api.android.AIService;
+import ai.api.model.AIError;
+import ai.api.model.AIRequest;
+import ai.api.model.AIResponse;
+import ai.api.model.Result;
+import com.google.gson.JsonElement;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements AIListener{
 
+    private AIService aiService;
+    public TextView resultTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,18 +32,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        Toast.makeText(this,"This is me",Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"this is u",Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"This is Deepika",Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"This is Deepika2",Toast.LENGTH_LONG).show();
+        resultTextView = (TextView) findViewById(R.id.textview);
+
+        final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
+                AIConfiguration.SupportedLanguages.English,
+                AIConfiguration.RecognitionEngine.System);
+
+        AIRequest request = new AIRequest();
+        aiService = AIService.getService(this, config);
+        aiService.setListener(this);
+
+        request.setQuery("give me some clue");
+        try {
+            aiService.textRequest(request);
+        } catch (AIServiceException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -54,5 +71,53 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResult(final AIResponse response) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Result result = response.getResult();
+
+                // Get parameters
+                String parameterString = "";
+                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
+                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
+                        parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+                    }
+                }
+
+                // Show results in TextView.
+                resultTextView.setText("Query:" + result.getResolvedQuery() +
+                        "\nAction: " + result.getAction() +
+                        "\nParameters: " + parameterString);
+            }
+        });
+    }
+
+    @Override
+    public void onError(AIError error) {
+
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    @Override
+    public void onListeningStarted() {
+
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onListeningFinished() {
+
     }
 }
