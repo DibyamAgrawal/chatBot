@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ai.api.AIDataService;
 import ai.api.AIListener;
 import ai.api.AIServiceException;
 import ai.api.android.AIConfiguration;
@@ -22,6 +24,7 @@ import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,8 +33,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AIListener {
 
-    private AIService aiService;
     public TextView resultTextView;
+    AIDataService aiDataService;
+    AIRequest aiRequest;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -51,45 +55,11 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
-        aiService = AIService.getService(this, config);
-        aiService.setListener(this);
+        aiDataService = new AIDataService(config);
+        aiRequest = new AIRequest();
+        aiRequest.setQuery("Give me a clue");
 
-        new AsyncTask<AIRequest, Void, AIResponse>() {
-            @Override
-            protected AIResponse doInBackground(AIRequest... requests) {
-                AIRequest request = new AIRequest();
-                request.setQuery("give me some clue");
-                try {
-                    aiService.textRequest(request);
-                } catch (AIServiceException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(AIResponse aiResponse) {
-                if (aiResponse != null) {
-                    // process aiResponse here
-                }
-//                resultTextView.setText(aiResponse.getResult().getAction()+"\n"+aiResponse.getResult().getResolvedQuery());
-                Result result = aiResponse.getResult();
 
-                // Get parameters
-                String parameterString = "";
-                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
-                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
-                        parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
-                    }
-                }
-
-                // Show results in TextView.
-                resultTextView.setText("Query:" + result.getResolvedQuery() +
-                        "\nAction: " + result.getAction() +
-                        "\nParameters: " + parameterString);
-            }
-        }.execute();
-
-        aiService.stopListening();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -117,6 +87,42 @@ public class MainActivity extends AppCompatActivity implements AIListener {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void refresh(View view){
+        new AsyncTask<AIRequest, Void, AIResponse>() {
+            @Override
+            protected AIResponse doInBackground(AIRequest... requests) {
+                final AIRequest request = requests[0];
+                try {
+                    final AIResponse response = aiDataService.request(request);
+                    return response;
+                } catch (AIServiceException e) {
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(AIResponse aiResponse) {
+                if (aiResponse != null) {
+                    // process aiResponse here
+                }
+                Result result = aiResponse.getResult();
+                String parameterString = "";
+                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
+                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
+                        parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+                    }
+                }
+
+                // Show results in TextView.
+                resultTextView.setText("Query:" + result.getResolvedQuery() +
+                        "\nAction: " + result.getAction() +
+                        "\nJSON: " + result.getComplexParameter("id") +
+                        "\nParameters: " + parameterString);
+            }
+        }.execute(aiRequest);
+    }
+
+
 
     @Override
     public void onResult(AIResponse result) {
