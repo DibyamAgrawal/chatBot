@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,10 +43,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private static ChatArrayAdapter chatArrayAdapter;
-    private static ListView listView;
-    private EditText chatText;
-    private Button buttonSend;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +53,6 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         setSupportActionBar(toolbar);
 
         resultTextView = (TextView) findViewById(R.id.textview);
-
-        buttonSend = (Button) findViewById(R.id.send);
-
-        listView = (ListView) findViewById(R.id.msgview);
 
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
