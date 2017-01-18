@@ -1,15 +1,20 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ai.api.AIDataService;
 import ai.api.AIListener;
 import ai.api.AIServiceException;
 import ai.api.android.AIConfiguration;
@@ -18,13 +23,25 @@ import ai.api.model.AIError;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
+
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonElement;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity  implements AIListener{
+public class MainActivity extends AppCompatActivity implements AIListener {
 
-    private AIService aiService;
     public TextView resultTextView;
+    AIDataService aiDataService;
+    AIRequest aiRequest;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,18 +55,14 @@ public class MainActivity extends AppCompatActivity  implements AIListener{
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
-        AIRequest request = new AIRequest();
-        aiService = AIService.getService(this, config);
-        aiService.setListener(this);
+        aiDataService = new AIDataService(config);
+        aiRequest = new AIRequest();
+        aiRequest.setQuery("Give me a clue");
 
-        request.setQuery("give me some clue");
-        try {
-            aiService.textRequest(request);
-        } catch (AIServiceException e) {
-            e.printStackTrace();
-        }
 
-        aiService.stopListening();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -75,14 +88,24 @@ public class MainActivity extends AppCompatActivity  implements AIListener{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResult(final AIResponse response) {
-        runOnUiThread(new Runnable() {
+    public void refresh(View view){
+        new AsyncTask<AIRequest, Void, AIResponse>() {
             @Override
-            public void run() {
-                Result result = response.getResult();
-
-                // Get parameters
+            protected AIResponse doInBackground(AIRequest... requests) {
+                final AIRequest request = requests[0];
+                try {
+                    final AIResponse response = aiDataService.request(request);
+                    return response;
+                } catch (AIServiceException e) {
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(AIResponse aiResponse) {
+                if (aiResponse != null) {
+                    // process aiResponse here
+                }
+                Result result = aiResponse.getResult();
                 String parameterString = "";
                 if (result.getParameters() != null && !result.getParameters().isEmpty()) {
                     for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
@@ -93,14 +116,22 @@ public class MainActivity extends AppCompatActivity  implements AIListener{
                 // Show results in TextView.
                 resultTextView.setText("Query:" + result.getResolvedQuery() +
                         "\nAction: " + result.getAction() +
+                        "\nSpeech: " + result.getFulfillment().getSpeech() +
                         "\nParameters: " + parameterString);
             }
-        });
+        }.execute(aiRequest);
+    }
+
+
+
+    @Override
+    public void onResult(AIResponse result) {
+
     }
 
     @Override
     public void onError(AIError error) {
-
+        resultTextView.setText(error.toString());
     }
 
     @Override
@@ -121,5 +152,45 @@ public class MainActivity extends AppCompatActivity  implements AIListener{
     @Override
     public void onListeningFinished() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://cse2016.in.ac.nitrkl.chatbot/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://cse2016.in.ac.nitrkl.chatbot/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }

@@ -12,9 +12,17 @@
     tools:context="cse2016.in.ac.nitrkl.chatbot.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/refresh"
+        android:onClick="refresh"
+        android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:layout_below="@id/refresh"/>
 </RelativeLayout>
