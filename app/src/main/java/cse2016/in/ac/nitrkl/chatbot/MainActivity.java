@@ -1,5 +1,6 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_chat);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -90,6 +91,11 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void chat(View view){
+        Intent intent = new Intent(this,BOT.class);
+        startActivity(intent);
     }
 
     public void refresh(View view){

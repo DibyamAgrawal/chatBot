@@ -15,14 +15,14 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/refresh"
-        android:onClick="refresh"
+        android:text="Chat"
+        android:id="@+id/chat"
+        android:onClick="chat"
         android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview"
         android:text="Hello World!"
-        android:layout_below="@id/refresh"/>
+        android:layout_below="@id/chat"/>
 </RelativeLayout>
