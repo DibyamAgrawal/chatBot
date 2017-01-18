@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                 // Show results in TextView.
                 resultTextView.setText("Query:" + result.getResolvedQuery() +
                         "\nAction: " + result.getAction() +
-                        "\nJSON: " + result.getComplexParameter("id") +
+                        "\nSpeech: " + result.getFulfillment().getSpeech() +
                         "\nParameters: " + parameterString);
             }
         }.execute(aiRequest);
