@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,15 +45,24 @@ public class MainActivity extends AppCompatActivity implements AIListener {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private static ChatArrayAdapter chatArrayAdapter;
+    private static ListView listView;
+    private EditText chatText;
+    private Button buttonSend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.content_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         resultTextView = (TextView) findViewById(R.id.textview);
+
+        buttonSend = (Button) findViewById(R.id.send);
+
+        listView = (ListView) findViewById(R.id.msgview);
+
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
@@ -106,18 +119,8 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                     // process aiResponse here
                 }
                 Result result = aiResponse.getResult();
-                String parameterString = "";
-                if (result.getParameters() != null && !result.getParameters().isEmpty()) {
-                    for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
-                        parameterString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
-                    }
-                }
-
                 // Show results in TextView.
-                resultTextView.setText("Query:" + result.getResolvedQuery() +
-                        "\nAction: " + result.getAction() +
-                        "\nSpeech: " + result.getFulfillment().getSpeech() +
-                        "\nParameters: " + parameterString);
+                resultTextView.setText("Speech: " + result.getFulfillment().getSpeech());
             }
         }.execute(aiRequest);
     }
