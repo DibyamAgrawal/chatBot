@@ -1,5 +1,6 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -8,10 +9,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,9 +35,14 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonElement;
+import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements AIListener {
+public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener {
 
     public TextView resultTextView;
     AIDataService aiDataService;
@@ -53,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        resultTextView = (TextView) findViewById(R.id.textview);
-
-
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
@@ -64,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         aiRequest = new AIRequest();
         aiRequest.setQuery("Give me a clue");
 
+
+        ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
+        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(ImagesUrls.imageUrls_left));
+        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(ImagesUrls.imageUrls_right));
+        listBuddies.setAdapters(adapter, adapter2);
+
+        listBuddies.setOnItemClickListener(this);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -194,5 +206,10 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
+        Toast.makeText(this,"buddy:"+buddy+" position:"+position,Toast.LENGTH_SHORT).show();
     }
 }
