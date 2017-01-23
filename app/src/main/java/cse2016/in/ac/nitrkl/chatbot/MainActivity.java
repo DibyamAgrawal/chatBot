@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements AIListener {
     }
 
     public void chat(View view){
+        Intent intent1 = new Intent(this,ChatHeadService.class);
+        startService(intent1);
         Intent intent = new Intent(this,BOT.class);
         startActivity(intent);
     }
