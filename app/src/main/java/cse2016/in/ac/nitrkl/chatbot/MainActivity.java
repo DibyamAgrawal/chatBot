@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         Intent intent = new Intent(this,BOT.class);
         startActivity(intent);
     }
+
 
     public void refresh(View view){
         new AsyncTask<AIRequest, Void, AIResponse>() {
@@ -211,5 +214,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
         Toast.makeText(this,"buddy:"+buddy+" position:"+position,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,CustomAnimationFragment.class);
+        startActivity(intent);
     }
 }
