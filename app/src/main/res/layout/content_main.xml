@@ -18,6 +18,8 @@
         android:id="@+id/chat"
         android:onClick="chat"
         android:layout_centerHorizontal="true" />
+
+
     <com.jpardogo.listbuddies.lib.views.ListBuddiesLayout
         xmlns:listbuddies="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listbuddies"
