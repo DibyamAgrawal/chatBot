@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 else {
-                    enterCode.setText(" ");
+                    enterCode.setText("");
                     Toast.makeText(getApplicationContext(),"Wrong code",Toast.LENGTH_LONG).show();
                 }
             }
