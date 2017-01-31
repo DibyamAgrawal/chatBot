@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
             /** request permission via start activity for result */
             startActivityForResult(intent, REQUEST_CODE);
         }
+        else{
+            chatx();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)

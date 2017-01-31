@@ -1,5 +1,6 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import ai.api.AIDataService;
 import ai.api.AIServiceException;
@@ -21,8 +23,8 @@ import ai.api.model.Result;
 /**
  * Created by dibya on 18-01-2017.
  */
-public class BOT extends TtsActivity{
-    private TextToSpeech tts ;
+public class BOT extends TtsActivity {
+    private TextToSpeech tts;
     private static ChatArrayAdapter chatArrayAdapter;
     private static ListView listView;
     private EditText chatText;
@@ -30,6 +32,7 @@ public class BOT extends TtsActivity{
     AIDataService aiDataService;
     AIRequest aiRequest;
     DBAdapter myDB;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,14 @@ public class BOT extends TtsActivity{
         listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         listView.setAdapter(chatArrayAdapter);
 
+//        listView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                textView = (TextView) view.findViewById(R.id.msgr);
+//                String text = textView.getText().toString();
+//                speakOut(text);
+//            }
+//        });
     }
 
     private boolean sendChatMessage() {
@@ -105,7 +116,7 @@ public class BOT extends TtsActivity{
 
     public void update() {
         Cursor c = myDB.getAllRows();
-        String userMsg,botMsg;
+        String userMsg, botMsg;
         chatArrayAdapter.clear1();
         if (c.getCount() != 0) {
             do {
