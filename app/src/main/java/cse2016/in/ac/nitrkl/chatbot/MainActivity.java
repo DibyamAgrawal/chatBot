@@ -1,14 +1,21 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -111,13 +118,41 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         return super.onOptionsItemSelected(item);
     }
 
-    public void chat(View view) {
+    public void chatx() {
         Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
         Intent intent = new Intent(this, BOT.class);
         startActivity(intent);
     }
 
+    public int REQUEST_CODE = 3;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void chat(View v) {
+        /** check if we already  have permission to draw over other apps */
+        if (!Settings.canDrawOverlays(this)) {
+            /** if not construct intent to request permission */
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            /** request permission via start activity for result */
+            startActivityForResult(intent, REQUEST_CODE);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /** check if received result code
+         is equal our requested code for draw permission  */
+        if (requestCode == REQUEST_CODE) {
+//             if so check once again if we have permission
+            if (Settings.canDrawOverlays(this)) {
+                // continue here - permission was granted
+                chatx();
+            }
+        }
+
+    }
 
     public void refresh(View view) {
         new AsyncTask<AIRequest, Void, AIResponse>() {
