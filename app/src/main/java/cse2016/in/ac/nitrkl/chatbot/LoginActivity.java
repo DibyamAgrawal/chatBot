@@ -11,20 +11,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 /**
  * Created by LENOVO on 31-01-2017.
  */
 public class LoginActivity extends AppCompatActivity {
 
-    EditText name, email, phone;
-    Button save;
+    String code;
+    EditText enterCode;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static final String DEFAULT = "N/A";
+    Button enterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +44,28 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+        enterButton = (Button)findViewById(R.id.enterButton);
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterCode= (EditText) findViewById(R.id.enter_game);
+                code = enterCode.getText().toString();
+                if(code.equals("uc2017")) {
 
-        name = (EditText) findViewById(R.id.enter_game);
-    }
+                    editor.putString("name", code);
+                    editor.apply();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
 
+                }
+                else {
+                    enterCode.setText(" ");
+                    Toast.makeText(getApplicationContext(),"Wrong code",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-
-    public void register(View view) {
-
-        editor.putString("name", name.getText().toString());
-        editor.commit();
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
 }
