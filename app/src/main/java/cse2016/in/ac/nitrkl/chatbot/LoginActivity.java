@@ -23,7 +23,7 @@ import static android.widget.Toast.LENGTH_SHORT;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    String code;
+    String code,password="uc2017";
     EditText enterCode;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String uname = sharedPreferences.getString("name", DEFAULT);
-        if (!uname.equals(DEFAULT)) {
+        if (uname.equals(password)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -50,17 +50,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 enterCode= (EditText) findViewById(R.id.enter_game);
                 code = enterCode.getText().toString();
-                if(code.equals("uc2017")) {
-
+                if(code.equals(password)) {
                     editor.putString("name", code);
                     editor.apply();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-
                 }
                 else {
-                    enterCode.setText(" ");
+                    enterCode.setText("");
                     Toast.makeText(getApplicationContext(),"Wrong code",Toast.LENGTH_LONG).show();
                 }
             }
