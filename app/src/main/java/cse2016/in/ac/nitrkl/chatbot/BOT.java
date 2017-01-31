@@ -3,6 +3,7 @@ package cse2016.in.ac.nitrkl.chatbot;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AbsListView;
@@ -20,8 +21,8 @@ import ai.api.model.Result;
 /**
  * Created by dibya on 18-01-2017.
  */
-public class BOT extends AppCompatActivity {
-
+public class BOT extends TtsActivity{
+    private TextToSpeech tts ;
     private static ChatArrayAdapter chatArrayAdapter;
     private static ListView listView;
     private EditText chatText;
@@ -42,7 +43,6 @@ public class BOT extends AppCompatActivity {
         buttonSend = (ImageButton) findViewById(R.id.send);
         listView = (ListView) findViewById(R.id.msgview);
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.right);
-
         update();
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
@@ -86,12 +86,15 @@ public class BOT extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
+
                 if (aiResponse != null) {
                     // process aiResponse here
                 }
                 Result result = aiResponse.getResult();
                 // Show results in TextView.
                 String botMsg = result.getFulfillment().getSpeech();
+                speakOut(botMsg);
+
                 chatArrayAdapter.add(new ChatMessage(false, botMsg));
                 myDB.insertRow(userMsg, botMsg);
             }
