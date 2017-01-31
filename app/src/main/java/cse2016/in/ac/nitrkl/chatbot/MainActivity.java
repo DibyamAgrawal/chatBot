@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener, TextToSpeech.OnInitListener {
+public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener {
 
     public TextView resultTextView;
     AIDataService aiDataService;
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tts = new TextToSpeech(this, this);
-      //  speakOut();
+//        tts = new TextToSpeech(this, this);
+//        speakOut("Deepika");
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
         aiRequest.setQuery("Give me a clue");
-
 
         ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
         CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(ImagesUrls.imageUrls_left));
@@ -223,32 +222,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         startActivity(intent);
     }
 
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
 
-            int result = tts.setLanguage(Locale.ENGLISH);
-            int pitch= tts.setPitch((float) 5.2);
-            int speed= tts.setSpeechRate((float) .75);
-//            Voice voice = new Voice();
-//            tts.setVoice();
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "This Language is not supported");
-            } else {
 
-//                speakOut();
-            }
-
-        } else {
-            Log.e("TTS", "Initilization Failed!");
-        }
-
-    }
-
-    private void speakOut() {
-        String text = "I am a trapped entity in this free world. Tired and wasted are my trials. Trapped inside a world with no memory of what I was is a sick feeling. I need someone to help me out. I want someone to show me the way and lead me out of this trap. It won’t be an easy task for anyone of you but it will surely be a chance worth taking. ";
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-    }
 
 }
