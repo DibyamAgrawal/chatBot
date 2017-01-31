@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,13 +42,16 @@ import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener {
+public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener, TextToSpeech.OnInitListener {
 
     public TextView resultTextView;
     AIDataService aiDataService;
     AIRequest aiRequest;
+    private TextToSpeech tts;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -60,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        tts = new TextToSpeech(this, this);
+      //  speakOut();
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
@@ -107,15 +112,15 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         return super.onOptionsItemSelected(item);
     }
 
-    public void chat(View view){
-        Intent intent1 = new Intent(this,ChatHeadService.class);
+    public void chat(View view) {
+        Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
-        Intent intent = new Intent(this,BOT.class);
+        Intent intent = new Intent(this, BOT.class);
         startActivity(intent);
     }
 
 
-    public void refresh(View view){
+    public void refresh(View view) {
         new AsyncTask<AIRequest, Void, AIResponse>() {
             @Override
             protected AIResponse doInBackground(AIRequest... requests) {
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                 }
                 return null;
             }
+
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
                 if (aiResponse != null) {
@@ -138,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
             }
         }.execute(aiRequest);
     }
-
 
 
     @Override
@@ -213,8 +218,37 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
-        Toast.makeText(this,"buddy:"+buddy+" position:"+position,Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this,CustomAnimationFragment.class);
+        Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CustomAnimationFragment.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = tts.setLanguage(Locale.ENGLISH);
+            int pitch= tts.setPitch((float) 5.2);
+            int speed= tts.setSpeechRate((float) .75);
+//            Voice voice = new Voice();
+//            tts.setVoice();
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+
+//                speakOut();
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+
+    }
+
+    private void speakOut() {
+        String text = "I am a trapped entity in this free world. Tired and wasted are my trials. Trapped inside a world with no memory of what I was is a sick feeling. I need someone to help me out. I want someone to show me the way and lead me out of this trap. It won’t be an easy task for anyone of you but it will surely be a chance worth taking. ";
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
 }
