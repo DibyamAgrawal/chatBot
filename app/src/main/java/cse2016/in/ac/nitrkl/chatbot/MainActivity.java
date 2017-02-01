@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     private TextToSpeech tts;
     final Context context = this;
     String res = "SAC";
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -125,10 +126,12 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     }
 
     public void chatx() {
+
         Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
         Intent intent = new Intent(this, BOT.class);
         startActivity(intent);
+
     }
 
     public int REQUEST_CODE = 3;
