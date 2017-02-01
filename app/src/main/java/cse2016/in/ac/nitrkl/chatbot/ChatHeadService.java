@@ -69,7 +69,6 @@ public class ChatHeadService extends Service implements FloatingViewListener {
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("cse2016.in.ac.nitrkl.chatbot");
                     sendBroadcast(broadcastIntent);
-
                 }
 
             }
@@ -95,6 +94,9 @@ public class ChatHeadService extends Service implements FloatingViewListener {
     public void onDestroy() {
         destroy();
         super.onDestroy();
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("cse2016.in.ac.nitrkl.chatbot");
+        sendBroadcast(broadcastIntent);
     }
 
     /**
