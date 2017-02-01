@@ -3,6 +3,7 @@ package cse2016.in.ac.nitrkl.chatbot;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,14 +17,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,12 +62,14 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     AIDataService aiDataService;
     AIRequest aiRequest;
     private TextToSpeech tts;
+    final Context context = this;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    boolean to_prompt = false;
 
 
     @Override
@@ -136,8 +142,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                     Uri.parse("package:" + getPackageName()));
             /** request permission via start activity for result */
             startActivityForResult(intent, REQUEST_CODE);
-        }
-        else{
+        } else {
             chatx();
         }
     }
@@ -255,12 +260,58 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
-        Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, CustomAnimationFragment.class);
-        startActivity(intent);
+
+        if (to_prompt) {
+            Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CustomAnimationFragment.class);
+            startActivity(intent);
+        } else {
+
+            alertDialog1();
+        }
     }
 
+    public void alertDialog1() {
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.prompts, null);
 
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context);
 
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText userInput = (EditText) promptsView
+                .findViewById(R.id.editTextDialogUserInput);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // get user input and set it to result
+                                // edit text
+                               // result.setText(userInput.getText());
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+        to_prompt=true;
+
+    }
 
 }
+
+
+

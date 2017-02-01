@@ -5,14 +5,20 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewListener;
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewManager;
@@ -52,13 +58,15 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         windowManager.getDefaultDisplay().getMetrics(metrics);
         final LayoutInflater inflater = LayoutInflater.from(this);
         final ImageView iconView = (ImageView) inflater.inflate(R.layout.widget_chathead, null, false);
+
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(!BOT.isInFront)
                 {
-                    Log.d(TAG,BOT.isInFront+"");
+                    Log.d(TAG, BOT.isInFront + "");
+
                     Intent intent = new Intent(getApplicationContext(), BOT.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
