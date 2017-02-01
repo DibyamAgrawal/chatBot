@@ -1,6 +1,10 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +43,11 @@ public class BOT extends TtsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        IntentFilter filter = new IntentFilter();
+
+        filter.addAction("com.hello.action");
+        registerReceiver(receiver, filter);
 
         myDB = new DBAdapter(this);
         myDB.open();
@@ -135,4 +144,31 @@ public class BOT extends TtsActivity {
         super.onDestroy();
         myDB.close();
     }
+
+    public static boolean isInFront;
+    @Override
+    public void onResume() {
+        super.onResume();
+        isInFront = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isInFront = false;
+    }
+
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+
+        }
+    };
+
+    public void finish() {
+        super.finish();
+    };
 }

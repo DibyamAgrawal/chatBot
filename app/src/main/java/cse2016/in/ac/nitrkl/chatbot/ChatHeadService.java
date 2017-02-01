@@ -56,18 +56,21 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         iconView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "deepika");
-                if(flag[0])
+
+                if(!BOT.isInFront)
                 {
+                    Log.d(TAG,BOT.isInFront+"");
                     Intent intent = new Intent(getApplicationContext(), BOT.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    flag[0] =false;
-                }
-                else if(!flag[0]){
 
-                    ((BOT) getApplicationContext()).finish();
-                    flag[0] = true;
+                }
+                else if(BOT.isInFront){
+                    Log.d(TAG, BOT.isInFront+"");
+
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction("cse2016.in.ac.nitrkl.chatbot");
+                    sendBroadcast(broadcastIntent);
 
                 }
 
