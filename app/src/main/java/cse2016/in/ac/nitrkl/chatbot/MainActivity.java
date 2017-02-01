@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     AIRequest aiRequest;
     private TextToSpeech tts;
     final Context context = this;
-
+    String res = "SAC";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -293,6 +293,14 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                 // get user input and set it to result
                                 // edit text
                                // result.setText(userInput.getText());
+                                String input = userInput.getText().toString();
+
+                                if(input.equals(res)){
+                                    to_prompt=true;
+                                    Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
+                                    startActivity(intent);
+
+                                }
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -307,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
         // show it
         alertDialog.show();
-        to_prompt=true;
+
 
     }
 
