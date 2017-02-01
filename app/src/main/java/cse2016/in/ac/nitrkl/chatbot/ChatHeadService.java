@@ -1,5 +1,6 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
@@ -46,7 +47,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
-
+        final boolean[] flag = {true};
         final DisplayMetrics metrics = new DisplayMetrics();
         final WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
@@ -56,6 +57,20 @@ public class ChatHeadService extends Service implements FloatingViewListener {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "deepika");
+                if(flag[0])
+                {
+                    Intent intent = new Intent(getApplicationContext(), BOT.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    flag[0] =false;
+                }
+                else if(!flag[0]){
+
+                    ((BOT) getApplicationContext()).finish();
+                    flag[0] = true;
+
+                }
+
             }
         });
 
