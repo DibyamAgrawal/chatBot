@@ -47,7 +47,6 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
-        final boolean[] flag = {true};
         final DisplayMetrics metrics = new DisplayMetrics();
         final WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
@@ -67,7 +66,6 @@ public class ChatHeadService extends Service implements FloatingViewListener {
                 }
                 else if(BOT.isInFront){
                     Log.d(TAG, BOT.isInFront+"");
-
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("cse2016.in.ac.nitrkl.chatbot");
                     sendBroadcast(broadcastIntent);

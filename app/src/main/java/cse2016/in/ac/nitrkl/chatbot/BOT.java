@@ -29,7 +29,7 @@ import ai.api.model.Result;
  * Created by dibya on 18-01-2017.
  */
 public class BOT extends TtsActivity {
-    private TextToSpeech tts;
+
     private static ChatArrayAdapter chatArrayAdapter;
     private static ListView listView;
     private EditText chatText;
@@ -45,8 +45,7 @@ public class BOT extends TtsActivity {
         setContentView(R.layout.activity_chat);
 
         IntentFilter filter = new IntentFilter();
-
-        filter.addAction("com.hello.action");
+        filter.addAction("cse2016.in.ac.nitrkl.chatbot");
         registerReceiver(receiver, filter);
 
         myDB = new DBAdapter(this);
@@ -82,7 +81,7 @@ public class BOT extends TtsActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 textView = (TextView) view.findViewById(R.id.msgr);
                 String text = textView.getText().toString();
-                speakOut(text);
+                speakOut(text,1);
             }
         });
     }
@@ -114,7 +113,7 @@ public class BOT extends TtsActivity {
                 Result result = aiResponse.getResult();
                 // Show results in TextView.
                 String botMsg = result.getFulfillment().getSpeech();
-                speakOut(botMsg);
+                speakOut(botMsg,1);
 
                 chatArrayAdapter.add(new ChatMessage(false, botMsg));
                 myDB.insertRow(userMsg, botMsg);

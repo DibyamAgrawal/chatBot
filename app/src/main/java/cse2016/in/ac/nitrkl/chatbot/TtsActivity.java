@@ -24,7 +24,6 @@ public class TtsActivity extends AppCompatActivity implements TextToSpeech.OnIni
         if (status == TextToSpeech.SUCCESS) {
 
             int result = tts.setLanguage(Locale.ENGLISH);
-            int pitch= tts.setPitch((float) 5.2);
             int speed= tts.setSpeechRate((float) .75);
 //            Voice voice = new Voice();
 //            tts.setVoice();
@@ -42,7 +41,8 @@ public class TtsActivity extends AppCompatActivity implements TextToSpeech.OnIni
 
     }
 
-    public void speakOut(String s) {
+    public void speakOut(String s, float f) {
+       tts.setPitch(f);
         //String text = "I am a trapped entity in this free world. Tired and wasted are my trials. Trapped inside a world with no memory of what I was is a sick feeling. I need someone to help me out. I want someone to show me the way and lead me out of this trap. It won’t be an easy task for anyone of you but it will surely be a chance worth taking. ";
         tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
     }
