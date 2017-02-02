@@ -199,6 +199,23 @@ public class DBAdapter2 {
     //    --------------------------------------------------------------------------
 //TABLE 2 CODE
 // Get a specific row (by rowId)
+//    public long insertRow2(String area, String ques, String ans, String story) {
+//		/*
+//		 * CHANGE 3:
+//		 */
+//        // TODO: Update data in the row with new fields.
+//        // TODO: Also change the function's arguments to be what you need!
+//        // Create row's data:
+//        ContentValues initialValues = new ContentValues();
+//        initialValues.put(KEY_AREA, area);
+//        initialValues.put(KEY_QUESTION, ques);
+//        initialValues.put(KEY_FINALANS, ans);
+//        initialValues.put(KEY_STORY, story);
+//
+//        // Insert it into the database.
+//        return db.insert(DATABASE_TABLE, null, initialValues);
+//    }
+
     public Cursor getRow2(String area) {
         String where = KEY_AREA2 + "='" + area +"'";
         Cursor c = db.query(true, DATABASE_TABLE2, ALL_KEYS2,

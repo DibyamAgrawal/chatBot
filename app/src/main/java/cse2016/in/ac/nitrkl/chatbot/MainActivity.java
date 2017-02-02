@@ -288,7 +288,6 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
             Intent intent = new Intent(this, CustomAnimationFragment.class);
             startActivity(intent);
         } else {
-
             alertDialog1();
         }
 
