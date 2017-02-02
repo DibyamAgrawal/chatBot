@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -36,7 +37,8 @@ public class BOT extends TtsActivity {
     private ImageButton buttonSend;
     AIDataService aiDataService;
     AIRequest aiRequest;
-    DBAdapter myDB;
+    static DBAdapter myDB;
+    static DBAdapter2 myDB2;
     TextView textView;
 
     @Override
@@ -50,12 +52,20 @@ public class BOT extends TtsActivity {
 
         myDB = new DBAdapter(this);
         myDB.open();
+        myDB2 = new DBAdapter2(this);
+        myDB2.open();
 
         chatText = (EditText) findViewById(R.id.msg);
         buttonSend = (ImageButton) findViewById(R.id.send);
         listView = (ListView) findViewById(R.id.msgview);
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.right);
         update();
+
+        if(getIntent().getIntExtra("level",0) == 1) {
+            String botMsg = getIntent().getStringExtra("botMsg");
+            Log.i("botMessage2", botMsg);
+            generateLevel1(botMsg);
+        }
 
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
@@ -88,10 +98,15 @@ public class BOT extends TtsActivity {
 
     private boolean sendChatMessage() {
         final String userMsg = chatText.getText().toString();
-        aiRequest.setQuery(userMsg);
         chatArrayAdapter.add(new ChatMessage(true, userMsg));
         chatText.setText("");
 
+        if(userMsg.toCharArray()[0] == '#'){
+            answer(userMsg);
+            return true;
+        }
+
+        aiRequest.setQuery(userMsg);
         new AsyncTask<AIRequest, Void, AIResponse>() {
             @Override
             protected AIResponse doInBackground(AIRequest... requests) {
@@ -123,6 +138,17 @@ public class BOT extends TtsActivity {
         return true;
     }
 
+    private void answer(String userMsg) {
+        String botMsg = "";
+
+//        botMsg = getAnswer(userMsg);
+
+
+        speakOut(botMsg,1);
+        chatArrayAdapter.add(new ChatMessage(false, botMsg));
+        myDB.insertRow(userMsg, botMsg);
+    }
+
     public void update() {
         Cursor c = myDB.getAllRows();
         String userMsg, botMsg;
@@ -131,8 +157,12 @@ public class BOT extends TtsActivity {
             do {
                 userMsg = c.getString(DBAdapter.COL_USER);
                 botMsg = c.getString(DBAdapter.COL_BOT);
-                chatArrayAdapter.add(new ChatMessage(true, userMsg));
-                chatArrayAdapter.add(new ChatMessage(false, botMsg));
+                if(userMsg.length()>0) {
+                    chatArrayAdapter.add(new ChatMessage(true, userMsg));
+                }
+                if (botMsg.length()>0) {
+                    chatArrayAdapter.add(new ChatMessage(false, botMsg));
+                }
             } while (c.moveToNext());
         }
         c.close();
@@ -142,6 +172,7 @@ public class BOT extends TtsActivity {
     protected void onDestroy() {
         super.onDestroy();
         myDB.close();
+        myDB2.close();
     }
 
     public static boolean isInFront;
@@ -157,7 +188,6 @@ public class BOT extends TtsActivity {
         isInFront = false;
     }
 
-
     BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
@@ -170,4 +200,11 @@ public class BOT extends TtsActivity {
     public void finish() {
         super.finish();
     };
+
+    public void generateLevel1(String botMsg) {
+        speakOut(botMsg, (float) 4.5);
+        Log.i("bot",botMsg);
+        chatArrayAdapter.add(new ChatMessage(false, botMsg));
+        myDB.insertRow("", botMsg);
+    }
 }

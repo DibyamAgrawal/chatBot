@@ -19,13 +19,13 @@ public class ImagesUrls {
     };
 
     public final static Integer[] imageUrls_left2 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now
     };
     public final static Integer[] imageUrls_left3 = new Integer[]{
             R.mipmap.ic_launcher,
@@ -46,11 +46,11 @@ public class ImagesUrls {
     };
 
     public final static Integer[] imageUrls_right2 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now,
+            R.drawable.ic_action_send_now
     };
 
     public final static Integer[] imageUrls_right3 = new Integer[]{
@@ -73,7 +73,7 @@ public class ImagesUrls {
                     imageUrls_left1[i] = imageUrls_left2[i];
                 }
                 else{
-                    imageUrls_right1[i] = imageUrls_right2[i];
+                    imageUrls_right1[i-7] = imageUrls_right2[i-7];
                 }
             }
             if(myDB.getRow(LoginActivity.areas[i]).getInt(myDB.COL_SOLVED)==1){
@@ -81,7 +81,7 @@ public class ImagesUrls {
                     imageUrls_left1[i] = imageUrls_left3[i];
                 }
                 else{
-                    imageUrls_right1[i] = imageUrls_right3[i];
+                    imageUrls_right1[i-7] = imageUrls_right3[i-7];
                 }
             }
         }

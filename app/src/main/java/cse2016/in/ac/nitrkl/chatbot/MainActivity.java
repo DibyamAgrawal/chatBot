@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 //    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
 
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
+
+        if (!Settings.canDrawOverlays(this)) {
+            /** if not construct intent to request permission */
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            /** request permission via start activity for result */
+            startActivity(intent);
+        }
 
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
@@ -130,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         return super.onOptionsItemSelected(item);
     }
 
-    public void chatx() {
+    public void chat(View v) {
 
         Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
@@ -139,36 +148,36 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
     }
 
-    public int REQUEST_CODE = 3;
+//    public int REQUEST_CODE = 3;
 
-    @TargetApi(Build.VERSION_CODES.M)
-    public void chat(View v) {
-        /** check if we already  have permission to draw over other apps */
-        if (!Settings.canDrawOverlays(this)) {
-            /** if not construct intent to request permission */
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            /** request permission via start activity for result */
-            startActivityForResult(intent, REQUEST_CODE);
-        } else {
-            chatx();
-        }
-    }
+//    @TargetApi(Build.VERSION_CODES.M)
+//    public void chat(View v) {
+//        /** check if we already  have permission to draw over other apps */
+//        if (!Settings.canDrawOverlays(this)) {
+//            /** if not construct intent to request permission */
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//                    Uri.parse("package:" + getPackageName()));
+//            /** request permission via start activity for result */
+//            startActivityForResult(intent, REQUEST_CODE);
+//        } else {
+//            chatx();
+//        }
+//    }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /** check if received result code
-         is equal our requested code for draw permission  */
-        if (requestCode == REQUEST_CODE) {
-//             if so check once again if we have permission
-            if (Settings.canDrawOverlays(this)) {
-                // continue here - permission was granted
-                chatx();
-            }
-        }
-
-    }
+//    @TargetApi(Build.VERSION_CODES.M)
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        /** check if received result code
+//         is equal our requested code for draw permission  */
+//        if (requestCode == REQUEST_CODE) {
+////             if so check once again if we have permission
+//            if (Settings.canDrawOverlays(this)) {
+//                // continue here - permission was granted
+//                chatx();
+//            }
+//        }
+//
+//    }
 
     public void refresh(View view) {
         new AsyncTask<AIRequest, Void, AIResponse>() {
@@ -322,13 +331,25 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                 if(input.equals(res)){
 //                                    to_prompt[i]=true;
                                     if(flag==0)
-                                        ImagesUrls.imageUrls_left[pos]= R.drawable.ic_action_send_now;
+                                        ImagesUrls.imageUrls_left1[pos]= ImagesUrls.imageUrls_left2[pos];
                                     else
-                                        ImagesUrls.imageUrls_right[pos]= R.drawable.ic_action_send_now;
+                                        ImagesUrls.imageUrls_right1[pos]= ImagesUrls.imageUrls_right2[pos];
 
-                                    mydb.updateLock(res,1);
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
                                     startActivity(intent);
+                                    String botMsg = mydb.getRow2(res,1).getString(mydb.COL_QUESTION2);
+                                    Intent intent2 = new Intent(MainActivity.this,ChatHeadService.class);
+                                    startService(intent2);
+                                    Intent intent3 = new Intent(MainActivity.this,BOT.class);
+                                    intent3.putExtra("botMsg",botMsg);
+                                    intent3.putExtra("level",1);
+                                    Log.i("botMsg", botMsg);
+                                    startActivity(intent3);
+
+//                                    BOT.generateLevel1(botMsg);
+
+                                    mydb.updateLock(res, 1);
+
                                 }
                             }
                         })

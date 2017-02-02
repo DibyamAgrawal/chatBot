@@ -31,10 +31,22 @@ public class LoginActivity extends AppCompatActivity {
     public static final String DEFAULT = "N/A";
     Button enterButton;
     DBAdapter2 myDB;
+
+    //table 1 data
     public static String[] areas ={"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
     String[] questions ={"question1","question2","question3","question4","question5","question6","question7","question8","question9","question10","question11","question12"};
     String[] answers = {"answer1","answer2","answer3","answer4","answer5","answer6","answer7","answer8","answer9","answer10","answer11","answer12"};
     String[] stories = {"story1","story2","story3","story4","story5","story6","story7","story8","story9","story10","story11","story12"};
+
+
+//    table 2 data
+    public static String[] areas2 ={"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
+    String[] questions2 ={"question1","question2","question3","question4","question5","question6","question7","question8","question9","question10","question11","question12","question1","question2","question3","question4","question5","question6","question7","question8","question9","question10","question11","question12","question1","question2","question3","question4","question5","question6","question7","question8","question9","question10","question11","question12"};
+    String[] answers2 = {"answer1","answer2","answer3","answer4","answer5","answer6","answer7","answer8","answer9","answer10","answer11","answer12","answer1","answer2","answer3","answer4","answer5","answer6","answer7","answer8","answer9","answer10","answer11","answer12","answer1","answer2","answer3","answer4","answer5","answer6","answer7","answer8","answer9","answer10","answer11","answer12"};
+    String[] finalAns2 = {"finalAns1","finalAns2","finalAns3","finalAns4","finalAns5","finalAns6","finalAns7","finalAns8","finalAns9","finalAns10","finalAns11","finalAns12","finalAns1","finalAns2","finalAns3","finalAns4","finalAns5","finalAns6","finalAns7","finalAns8","finalAns9","finalAns10","finalAns11","finalAns12","finalAns1","finalAns2","finalAns3","finalAns4","finalAns5","finalAns6","finalAns7","finalAns8","finalAns9","finalAns10","finalAns11","finalAns12"};
+    String[] blno2 = {"blno1","blno2","blno3","blno4","blno5","blno6","blno7","blno8","blno9","blno10","blno11","blno12","blno1","blno2","blno3","blno4","blno5","blno6","blno7","blno8","blno9","blno10","blno11","blno12","blno1","blno2","blno3","blno4","blno5","blno6","blno7","blno8","blno9","blno10","blno11","blno12"};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +88,10 @@ public class LoginActivity extends AppCompatActivity {
         myDB.open();
         for (int i=0;i<12;i++) {
             long l = myDB.insertRow(i,areas[i], questions[i], answers[i], stories[i]);
+        }
+
+        for (int i=0;i<36;i++) {
+            long l = myDB.insertRow2(i,areas2[i/3],(i%3)+1, questions2[i], answers2[i], finalAns2[i], blno2[i]);
             Log.i("log",l+"");
         }
 

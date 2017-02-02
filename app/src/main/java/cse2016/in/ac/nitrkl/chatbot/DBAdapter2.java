@@ -103,16 +103,16 @@ public class DBAdapter2 {
 
     private static final String DATABASE_CREATE_SQL2 =
             "create table " + DATABASE_TABLE2
-                    + " (" + KEY_ROWID2 + " integer primary key autoincrement, "
+                    + " (" + KEY_ROWID2 + " integer primary key, "
                     + KEY_AREA2 + " varchar not null, "
                     + KEY_LEVEL2 + " integer not null, "
-                    + KEY_QUESTION2 + " varcher not null, "
+                    + KEY_QUESTION2 + " varchar not null, "
                     + KEY_ANS2 + " varchar not null, "
                     + KEY_CORRECT2 + " integer not null DEFAULT 0, "
-                    + KEY_BLNO2 + " varcher not null, "
+                    + KEY_BLNO2 + " varchar not null, "
                     + KEY_FINALANS2 + " varchar not null, "
                     + KEY_SOLVED2 + " integer not null DEFAULT 0, "
-                    + KEY_TIME2 + " varcher not null "
+                    + KEY_TIME2 + " varchar "
                     + ");";
 
 
@@ -200,25 +200,24 @@ public class DBAdapter2 {
     //    --------------------------------------------------------------------------
 //TABLE 2 CODE
 // Get a specific row (by rowId)
-//    public long insertRow2(String area, String ques, String ans, String story) {
-//		/*
-//		 * CHANGE 3:
-//		 */
-//        // TODO: Update data in the row with new fields.
-//        // TODO: Also change the function's arguments to be what you need!
-//        // Create row's data:
-//        ContentValues initialValues = new ContentValues();
-//        initialValues.put(KEY_AREA, area);
-//        initialValues.put(KEY_QUESTION, ques);
-//        initialValues.put(KEY_FINALANS, ans);
-//        initialValues.put(KEY_STORY, story);
-//
-//        // Insert it into the database.
-//        return db.insert(DATABASE_TABLE, null, initialValues);
-//    }
+    public long insertRow2(int id,String area,int level, String ques, String ans,String blno,String fans) {
 
-    public Cursor getRow2(String area) {
-        String where = KEY_AREA2 + "='" + area +"'";
+        // Create row's data:
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_ROWID2, id);
+        initialValues.put(KEY_AREA2, area);
+        initialValues.put(KEY_LEVEL2, level);
+        initialValues.put(KEY_QUESTION2, ques);
+        initialValues.put(KEY_ANS2, ans);
+        initialValues.put(KEY_BLNO2, blno);
+        initialValues.put(KEY_FINALANS2, fans);
+
+        // Insert it into the database.
+        return db.insert(DATABASE_TABLE2, null, initialValues);
+    }
+
+    public Cursor getRow2(String area,int level) {
+        String where = KEY_AREA2 + "='" + area + "' and " + KEY_LEVEL2 + "=" + level;
         Cursor c = db.query(true, DATABASE_TABLE2, ALL_KEYS2,
                 where, null, null, null, null, null);
         if (c != null) {
