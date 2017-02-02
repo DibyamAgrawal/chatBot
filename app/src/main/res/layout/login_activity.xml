@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:orientation="vertical"
-              android:layout_margin="@dimen/activity_horizontal_margin">
+              android:layout_gravity="center_vertical"
+              android:gravity="center_vertical"
+              android:layout_margin="@dimen/activity_horizontal_margin"
+              android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal">
+                  android:orientation="vertical">
 
         <TextView
             android:id="@+id/game"
@@ -28,6 +29,8 @@
         android:id="@+id/enterButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:text="Enter"/>
 
 </LinearLayout>

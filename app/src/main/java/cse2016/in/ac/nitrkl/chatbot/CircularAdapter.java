@@ -23,18 +23,18 @@ import java.util.List;
 public class CircularAdapter extends CircularLoopAdapter {
     private static final String TAG = CircularAdapter.class.getSimpleName();
 
-    private List<String> mItems = new ArrayList<String>();
+    private List<Integer> mItems = new ArrayList<>();
     private Context mContext;
     private int mRowHeight;
 
-    public CircularAdapter(Context context, int rowHeight, List<String> imagesUrl) {
+    public CircularAdapter(Context context, int rowHeight, List<Integer> imagesUrl) {
         mContext = context;
         mRowHeight = rowHeight;
         mItems = imagesUrl;
     }
 
     @Override
-    public String getItem(int position) {
+    public Integer getItem(int position) {
         return mItems.get(getCircularPosition(position));
     }
 
@@ -56,8 +56,9 @@ public class CircularAdapter extends CircularLoopAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.image.setMinimumHeight(mRowHeight);
+        holder.image.setImageResource(getItem(position));
 
-        Picasso.with(mContext).load(getItem(position)).transform(new ScaleToFitWidthHeightTransform(mRowHeight, true)).skipMemoryCache().into(holder.image);
+        //Picasso.with(mContext).load(getItem(position)).transform(new ScaleToFitWidthHeightTransform(mRowHeight, true)).skipMemoryCache().into(holder.image);
 
         return convertView;
     }

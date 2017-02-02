@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
         if(buddy==0) {
+            ImagesUrls.imageUrls_left[position]= R.drawable.ic_action_send_now;
             i = position;
             res = answers[i];
             ques = questions[i];
