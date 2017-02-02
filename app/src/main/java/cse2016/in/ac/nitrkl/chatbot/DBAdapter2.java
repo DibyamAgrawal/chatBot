@@ -196,6 +196,15 @@ public class DBAdapter2 {
         return db.update(DATABASE_TABLE, newValues, where, null) != 0;
     }
 
+    public Cursor getAllRows() {
+        String where = null;
+        Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
 
     //    --------------------------------------------------------------------------
 //TABLE 2 CODE
@@ -246,6 +255,16 @@ public class DBAdapter2 {
         return db.update(DATABASE_TABLE2, newValues, where, null) != 0;
     }
 
+    // Return all data in the database.
+    public Cursor getAllRows2() {
+        String where = null;
+        Cursor c = 	db.query(true, DATABASE_TABLE2, ALL_KEYS2,
+                where, null, null, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
 //-----------------------------------------------------------------------------------------
 
 

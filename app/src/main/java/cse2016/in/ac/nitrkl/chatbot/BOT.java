@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ai.api.AIDataService;
 import ai.api.AIServiceException;
@@ -102,7 +103,7 @@ public class BOT extends TtsActivity {
         chatText.setText("");
 
         if(userMsg.toCharArray()[0] == '#'){
-            answer(userMsg);
+            getAnswer(userMsg);
             return true;
         }
 
@@ -138,13 +139,60 @@ public class BOT extends TtsActivity {
         return true;
     }
 
-    private void answer(String userMsg) {
-        String botMsg = "";
+    private void getAnswer(String userMsgs) {
+        int count=0,total=0;
+        String userMsg = userMsgs.substring(1,userMsgs.length());
 
-//        botMsg = getAnswer(userMsg);
+        Cursor c = myDB2.getAllRows2();
+        do {
+            if(c.getString(myDB2.COL_ANS2).equals(userMsg) && myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LOCK)==1 && myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LEVEL)==c.getInt(myDB2.COL_LEVEL) && c.getInt(myDB2.COL_CORRECT2)==0){
+                myDB2.updateCorrect2(c.getString(myDB2.COL_AREA2), c.getInt(myDB2.COL_LEVEL2),1);
+                String message = c.getString(myDB2.COL_BLNO2);
+                botMessage(userMsgs,message);
+            }
+            else if(c.getString(myDB2.COL_FINALANS2).equals(userMsg) && c.getInt(myDB2.COL_CORRECT2)==1 && c.getInt(myDB2.COL_SOLVED2)==0){
+                String time ="update";
+                String message ="";
+                myDB2.updateSolved2(c.getString(myDB2.COL_AREA2), c.getInt(myDB2.COL_LEVEL2),1,time);
+                if(c.getInt(myDB2.COL_LEVEL2)==3) {
+                    message = myDB2.getRow(c.getString(myDB2.COL_AREA2)).getString(myDB2.COL_QUESTION);
+                }
+                if(c.getInt(myDB2.COL_LEVEL2)<3){
+                    message = myDB2.getRow2(c.getString(myDB2.COL_AREA2),c.getInt(myDB2.COL_LEVEL2)+1).getString(myDB2.COL_QUESTION2);
+                }
+                myDB2.updateLevel(c.getString(myDB2.COL_AREA2), myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LEVEL) + 1);
+                botMessage(userMsgs,message);
+            }
+            else {
+                count++;
+            }
+            total++;
+        }while (c.moveToNext());
 
+        int total2=0;
+        Cursor cursor = myDB2.getAllRows();
+        do {
+            if(cursor.getString(myDB2.COL_FINALANS).equals(userMsg) && cursor.getInt(myDB2.COL_LEVEL)==4 && cursor.getInt(myDB2.COL_SOLVED)==0){
+                String time = "update";
+                myDB2.updateSolved(cursor.getString(myDB2.COL_AREA),1,time);
+                myDB2.updateLevel(cursor.getString(myDB2.COL_AREA), myDB2.getRow(cursor.getString(myDB2.COL_AREA)).getInt(myDB2.COL_LEVEL) + 1);
+                String message = cursor.getString(myDB2.COL_STORY);
+                botMessage(userMsgs,message);
+            }
+            else{
+                count++;
+            }
+            total2++;
+        }while(cursor.moveToNext());
 
-        speakOut(botMsg,1);
+        if(count==total+total2){
+            botMessage(userMsgs,"Try Again");
+        }
+
+    }
+
+    private void botMessage(String userMsg,String botMsg) {
+        speakOut(botMsg, 1);
         chatArrayAdapter.add(new ChatMessage(false, botMsg));
         myDB.insertRow(userMsg, botMsg);
     }
@@ -202,7 +250,7 @@ public class BOT extends TtsActivity {
     };
 
     public void generateLevel1(String botMsg) {
-        speakOut(botMsg, (float) 4.5);
+        speakOut(botMsg, (float) 1);
         Log.i("bot",botMsg);
         chatArrayAdapter.add(new ChatMessage(false, botMsg));
         myDB.insertRow("", botMsg);

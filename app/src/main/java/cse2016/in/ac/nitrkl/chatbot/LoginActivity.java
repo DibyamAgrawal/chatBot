@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         for (int i=0;i<36;i++) {
-            long l = myDB.insertRow2(i,areas2[i/3],(i%3)+1, questions2[i], answers2[i], finalAns2[i], blno2[i]);
+            long l = myDB.insertRow2(i, areas2[i / 3], (i % 3) + 1, questions2[i], answers2[i], blno2[i], finalAns2[i]);
             Log.i("log",l+"");
         }
 

@@ -295,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         if (mydb.getRow(res).getInt(mydb.COL_LOCK) == 1) {
             Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomAnimationFragment.class);
+            intent.putExtra("area",res);
             startActivity(intent);
         } else {
             alertDialog1();
@@ -336,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                         ImagesUrls.imageUrls_right1[pos]= ImagesUrls.imageUrls_right2[pos];
 
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
+                                    intent.putExtra("area",res);
                                     startActivity(intent);
                                     String botMsg = mydb.getRow2(res,1).getString(mydb.COL_QUESTION2);
                                     Intent intent2 = new Intent(MainActivity.this,ChatHeadService.class);

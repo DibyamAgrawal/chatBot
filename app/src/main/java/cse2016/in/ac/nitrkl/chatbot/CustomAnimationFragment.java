@@ -1,10 +1,12 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,40 @@ public class CustomAnimationFragment extends AppCompatActivity {
         viewpager.setAdapter(new CarousalPagerAdapter());
         indicator.setViewPager(viewpager);
         pageSwitcher(2);
+    }
+
+    public void status(View view){
+        String area = getIntent().getStringExtra("area");
+        DBAdapter2 myDB2 = new DBAdapter2(this);
+        myDB2.open();
+
+        String botMsg = "";
+
+        if(myDB2.getRow(area).getInt(myDB2.COL_LEVEL)<4){
+            if(myDB2.getRow2(area,myDB2.getRow(area).getInt(myDB2.COL_LEVEL)).getInt(myDB2.COL_CORRECT2)==0){
+                botMsg = myDB2.getRow2(area,myDB2.getRow(area).getInt(myDB2.COL_LEVEL)).getString(myDB2.COL_QUESTION2);
+            }
+            else if(myDB2.getRow2(area,myDB2.getRow(area).getInt(myDB2.COL_LEVEL)).getInt(myDB2.COL_SOLVED2)==0){
+                botMsg = myDB2.getRow2(area,myDB2.getRow(area).getInt(myDB2.COL_LEVEL)).getString(myDB2.COL_BLNO2);
+            }
+        }
+        else if(myDB2.getRow(area).getInt(myDB2.COL_LEVEL)==4){
+            botMsg = myDB2.getRow(area).getString(myDB2.COL_QUESTION);
+        }
+        else if(myDB2.getRow(area).getInt(myDB2.COL_LEVEL)==5){
+            botMsg = myDB2.getRow(area).getString(myDB2.COL_STORY);
+        }
+
+
+        Intent intent2 = new Intent(CustomAnimationFragment.this,ChatHeadService.class);
+        startService(intent2);
+
+        Intent intent3 = new Intent(CustomAnimationFragment.this,BOT.class);
+        intent3.putExtra("botMsg",botMsg);
+        intent3.putExtra("level", 1);
+        startActivity(intent3);
+
+        myDB2.close();
     }
 
     @Override
