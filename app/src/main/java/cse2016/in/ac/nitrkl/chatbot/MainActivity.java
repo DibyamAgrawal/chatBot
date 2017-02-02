@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     final Context context = this;
     String res,ques ;
     DBAdapter2 mydb;
+    int pos,flag;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -268,12 +269,15 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
+        pos=position;
         if(buddy==0) {
             i = position;
+            flag=0;
             res = answers[i];
             ques = questions[i];
         }
         else {
+            flag=1;
             i = 7 + position;
             res = answers[i];
             ques = questions[i];
@@ -317,6 +321,11 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
                                 if(input.equals(res)){
 //                                    to_prompt[i]=true;
+                                    if(flag==0)
+                                        ImagesUrls.imageUrls_left[pos]= R.drawable.ic_action_send_now;
+                                    else
+                                        ImagesUrls.imageUrls_right[pos]= R.drawable.ic_action_send_now;
+
                                     mydb.updateLock(res,1);
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
                                     startActivity(intent);
