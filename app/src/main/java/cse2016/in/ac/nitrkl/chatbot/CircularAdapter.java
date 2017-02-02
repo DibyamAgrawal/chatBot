@@ -51,8 +51,8 @@ public class CircularAdapter extends CircularLoopAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-
-        } else {
+        }
+        else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.image.setMinimumHeight(mRowHeight);

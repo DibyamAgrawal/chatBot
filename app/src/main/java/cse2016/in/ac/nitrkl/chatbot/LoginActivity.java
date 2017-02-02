@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         String uname = sharedPreferences.getString("name", DEFAULT);
         if (uname.equals(password)) {
-            fillDatabase();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(code.equals(password)) {
                     editor.putString("name", code);
                     editor.apply();
+                    fillDatabase();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -74,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
     private void fillDatabase() {
         myDB.open();
         for (int i=0;i<12;i++) {
-            myDB.insertRow(areas[i],questions[i],answers[i],stories[i]);
+            long l = myDB.insertRow(areas[i], questions[i], answers[i], stories[i]);
+            Log.i("log",l+"");
         }
 
         myDB.close();
