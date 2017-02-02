@@ -1,9 +1,95 @@
 package cse2016.in.ac.nitrkl.chatbot;
 
+import android.content.Context;
+
 /**
  * Created by dibya on 23-01-2017.
  */
 public class ImagesUrls {
+    DBAdapter2 myDB;
+
+    public final static Integer[] imageUrls_left1 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+
+    public final static Integer[] imageUrls_left2 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+    public final static Integer[] imageUrls_left3 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+
+    public final static Integer[] imageUrls_right1 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+
+    public final static Integer[] imageUrls_right2 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+
+    public final static Integer[] imageUrls_right3 = new Integer[]{
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher
+    };
+
+    public ImagesUrls(Context context) {
+        super();
+        myDB = new DBAdapter2(context);
+        myDB.open();
+
+
+        for(int i=0;i<12;i++){
+            if(myDB.getRow(LoginActivity.areas[i]).getInt(myDB.COL_LOCK)==1){
+                if (i < 7){
+                    imageUrls_left1[i] = imageUrls_left2[i];
+                }
+                else{
+                    imageUrls_right1[i] = imageUrls_right2[i];
+                }
+            }
+            if(myDB.getRow(LoginActivity.areas[i]).getInt(myDB.COL_SOLVED)==1){
+                if (i < 7){
+                    imageUrls_left1[i] = imageUrls_left3[i];
+                }
+                else{
+                    imageUrls_right1[i] = imageUrls_right3[i];
+                }
+            }
+        }
+
+
+    }
+
+
 
 //    public final static String[] imageUrls_left = new String[]{
 //            "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
@@ -15,15 +101,6 @@ public class ImagesUrls {
 //            "https://lh6.googleusercontent.com/-UBmLbPELvoQ/URqucCdv0kI/AAAAAAAAAbs/IdNhr2VQoQs/s1024/Apre%2525CC%252580s%252520la%252520Pluie.jpg"
 //    };
 
-    public final static Integer[] imageUrls_left = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
-    };
 
 //    public final static String[] imageUrls_right = new String[]{
 //            "https://lh3.googleusercontent.com/-s-AFpvgSeew/URquc6dF-JI/AAAAAAAAAbs/Mt3xNGRUd68/s1024/Backlit%252520Cloud.jpg",
@@ -34,12 +111,7 @@ public class ImagesUrls {
 //
 //    };
 
-    public final static Integer[] imageUrls_right = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
-    };
+
+
 
 }

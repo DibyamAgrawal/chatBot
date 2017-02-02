@@ -55,7 +55,7 @@ public class DBAdapter2 {
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
-                    + " (" + KEY_ROWID + " integer primary key autoincrement, "
+                    + " (" + KEY_ROWID + " integer primary key, "
                     + KEY_AREA + " varchar not null, "
                     + KEY_LEVEL + " integer not null default 1, "
                     + KEY_LOCK + " integer not null default 0, "
@@ -138,7 +138,7 @@ public class DBAdapter2 {
         myDBHelper.close();
     }
 
-    public long insertRow(String area, String ques, String ans, String story) {
+    public long insertRow(int i,String area, String ques, String ans, String story) {
 		/*
 		 * CHANGE 3:
 		 */
@@ -146,6 +146,7 @@ public class DBAdapter2 {
         // TODO: Also change the function's arguments to be what you need!
         // Create row's data:
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_ROWID, i);
         initialValues.put(KEY_AREA, area);
         initialValues.put(KEY_QUESTION, ques);
         initialValues.put(KEY_FINALANS, ans);

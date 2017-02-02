@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
         aiRequest.setQuery("Give me a clue");
-
+        ImagesUrls ImagesUrls = new ImagesUrls(this);
         ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
-        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(ImagesUrls.imageUrls_left));
-        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(ImagesUrls.imageUrls_right));
+        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(ImagesUrls.imageUrls_left1));
+        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(ImagesUrls.imageUrls_right1));
         listBuddies.setAdapters(adapter, adapter2);
 
         listBuddies.setOnItemClickListener(this);
@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
         if(buddy==0) {
-            ImagesUrls.imageUrls_left[position]= R.drawable.ic_action_send_now;
             i = position;
             res = answers[i];
             ques = questions[i];

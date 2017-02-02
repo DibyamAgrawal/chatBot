@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String DEFAULT = "N/A";
     Button enterButton;
     DBAdapter2 myDB;
-    String[] areas ={"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
+    public static String[] areas ={"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
     String[] questions ={"question1","question2","question3","question4","question5","question6","question7","question8","question9","question10","question11","question12"};
     String[] answers = {"answer1","answer2","answer3","answer4","answer5","answer6","answer7","answer8","answer9","answer10","answer11","answer12"};
     String[] stories = {"story1","story2","story3","story4","story5","story6","story7","story8","story9","story10","story11","story12"};
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     private void fillDatabase() {
         myDB.open();
         for (int i=0;i<12;i++) {
-            long l = myDB.insertRow(areas[i], questions[i], answers[i], stories[i]);
+            long l = myDB.insertRow(i,areas[i], questions[i], answers[i], stories[i]);
             Log.i("log",l+"");
         }
 
