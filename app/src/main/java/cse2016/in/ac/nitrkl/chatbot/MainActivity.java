@@ -63,13 +63,17 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     AIRequest aiRequest;
     private TextToSpeech tts;
     final Context context = this;
-    String res = "SAC";
+    String res,ques ;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    boolean to_prompt = false;
+    //boolean to_prompt = false;
+    String[] questions ={"1","2","3","4","5","6","7","8","9","10","11","12"};
+    String[] answers = {"1","2","3","4","5","6","7","8","9","10","11","12"};
+    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
 
 
     @Override
@@ -125,10 +129,12 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     }
 
     public void chatx() {
+
         Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
         Intent intent = new Intent(this, BOT.class);
         startActivity(intent);
+
     }
 
     public int REQUEST_CODE = 3;
@@ -257,11 +263,22 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+    int i;
 
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
+        if(buddy==0) {
+            i = position;
+            res = answers[i];
+            ques = questions[i];
+        }
+        else {
+            i = 7 + position;
+            res = answers[i];
+            ques = questions[i];
+        }
 
-        if (to_prompt) {
+        if (to_prompt[i]) {
             Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomAnimationFragment.class);
             startActivity(intent);
@@ -280,7 +297,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-
+        final TextView message = (TextView)promptsView.findViewById(R.id.textView1);
+        message.setText(ques);
         final EditText userInput = (EditText) promptsView
                 .findViewById(R.id.editTextDialogUserInput);
 
@@ -296,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                 String input = userInput.getText().toString();
 
                                 if(input.equals(res)){
-                                    to_prompt=true;
+                                    to_prompt[i]=true;
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
                                     startActivity(intent);
 
