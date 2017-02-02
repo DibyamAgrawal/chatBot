@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     private TextToSpeech tts;
     final Context context = this;
     String res,ques ;
-
+    DBAdapter2 mydb;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
     private GoogleApiClient client;
     //boolean to_prompt = false;
     String[] questions ={"1","2","3","4","5","6","7","8","9","10","11","12"};
-    String[] answers = {"1","2","3","4","5","6","7","8","9","10","11","12"};
-    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
+    String[] answers = {"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
+//    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
 
 
     @Override
@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         setSupportActionBar(toolbar);
 //        tts = new TextToSpeech(this, this);
 //        speakOut("Deepika");
-
+        mydb = new DBAdapter2(this);
+        mydb.open();
         final AIConfiguration config = new AIConfiguration("6063deb9df104b4a8da4f80367fc9826",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
             ques = questions[i];
         }
 
-        if (to_prompt[i]) {
+        if (mydb.getRow(res).getInt(mydb.COL_LOCK) == 1) {
             Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomAnimationFragment.class);
             startActivity(intent);
@@ -286,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
             alertDialog1();
         }
+
     }
 
     public void alertDialog1() {
@@ -303,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                 .findViewById(R.id.editTextDialogUserInput);
 
         // set dialog message
+
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK",
@@ -314,10 +317,10 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                 String input = userInput.getText().toString();
 
                                 if(input.equals(res)){
-                                    to_prompt[i]=true;
+//                                    to_prompt[i]=true;
+                                    mydb.updateLock(res,1);
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
                                     startActivity(intent);
-
                                 }
                             }
                         })
@@ -333,10 +336,13 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
 
         // show it
         alertDialog.show();
-
-
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mydb.close();
+    }
 }
 
 
