@@ -9,50 +9,53 @@ public class ImagesUrls {
     DBAdapter2 myDB;
 
     public final static Integer[] imageUrls_left1 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.a,
+            R.drawable.b,
+            R.drawable.c,
+            R.drawable.d,
+            R.drawable.e,
+            R.drawable.f
+
+
     };
 
     public final static Integer[] imageUrls_left2 = new Integer[]{
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now
+            R.drawable.aa,
+            R.drawable.bb,
+            R.drawable.cc,
+            R.drawable.dd,
+            R.drawable.ee,
+            R.drawable.ff
     };
     public final static Integer[] imageUrls_left3 = new Integer[]{
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email
+            R.drawable.aaa,
+            R.drawable.bbb,
+            R.drawable.ccc,
+            R.drawable.ddd,
+            R.drawable.eee,
+            R.drawable.fff
     };
 
     public final static Integer[] imageUrls_right1 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.g,
+            R.drawable.h,
+            R.drawable.i,
+            R.drawable.j
+
     };
 
     public final static Integer[] imageUrls_right2 = new Integer[]{
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now
+            R.drawable.gg,
+            R.drawable.hh,
+            R.drawable.ii,
+            R.drawable.jj
     };
 
     public final static Integer[] imageUrls_right3 = new Integer[]{
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email,
-            R.drawable.ic_email
+            R.drawable.ggg,
+            R.drawable.hhh,
+            R.drawable.iii,
+            R.drawable.jjj
 
     };
 
