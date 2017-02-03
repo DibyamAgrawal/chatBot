@@ -145,10 +145,12 @@ public class BOT extends TtsActivity {
 
         Cursor c = myDB2.getAllRows2();
         do {
+            total++;
             if(c.getString(myDB2.COL_ANS2).equals(userMsg) && myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LOCK)==1 && myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LEVEL)==c.getInt(myDB2.COL_LEVEL) && c.getInt(myDB2.COL_CORRECT2)==0){
-                myDB2.updateCorrect2(c.getString(myDB2.COL_AREA2), c.getInt(myDB2.COL_LEVEL2),1);
+                myDB2.updateCorrect2(c.getString(myDB2.COL_AREA2), c.getInt(myDB2.COL_LEVEL2), 1);
                 String message = c.getString(myDB2.COL_BLNO2);
                 botMessage(userMsgs,message);
+                break;
             }
             else if(c.getString(myDB2.COL_FINALANS2).equals(userMsg) && c.getInt(myDB2.COL_CORRECT2)==1 && c.getInt(myDB2.COL_SOLVED2)==0){
                 String time ="update";
@@ -162,27 +164,28 @@ public class BOT extends TtsActivity {
                 }
                 myDB2.updateLevel(c.getString(myDB2.COL_AREA2), myDB2.getRow(c.getString(myDB2.COL_AREA2)).getInt(myDB2.COL_LEVEL) + 1);
                 botMessage(userMsgs,message);
+                break;
             }
             else {
                 count++;
             }
-            total++;
         }while (c.moveToNext());
 
         int total2=0;
         Cursor cursor = myDB2.getAllRows();
         do {
+            total2++;
             if(cursor.getString(myDB2.COL_FINALANS).equals(userMsg) && cursor.getInt(myDB2.COL_LEVEL)==4 && cursor.getInt(myDB2.COL_SOLVED)==0){
                 String time = "update";
                 myDB2.updateSolved(cursor.getString(myDB2.COL_AREA),1,time);
-                myDB2.updateLevel(cursor.getString(myDB2.COL_AREA), myDB2.getRow(cursor.getString(myDB2.COL_AREA)).getInt(myDB2.COL_LEVEL) + 1);
+                myDB2.updateLevel(cursor.getString(myDB2.COL_AREA), cursor.getInt(myDB2.COL_LEVEL) + 1);
                 String message = cursor.getString(myDB2.COL_STORY);
                 botMessage(userMsgs,message);
+                break;
             }
             else{
                 count++;
             }
-            total2++;
         }while(cursor.moveToNext());
 
         if(count==total+total2){
