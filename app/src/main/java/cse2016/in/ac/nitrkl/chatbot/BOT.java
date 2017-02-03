@@ -189,7 +189,7 @@ public class BOT extends TtsActivity {
         }while(cursor.moveToNext());
 
         if(count==total+total2){
-            botMessage(userMsgs,"Try Again");
+            botMessage(userMsgs,"PLease Try Again");
         }
 
     }

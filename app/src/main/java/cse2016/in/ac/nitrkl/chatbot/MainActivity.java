@@ -68,6 +68,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
     String res,ques ;
     DBAdapter2 mydb;
     int pos,flag;
+    ListBuddiesLayout listBuddies;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -105,19 +106,29 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
         aiRequest.setQuery("Give me a clue");
-        ImagesUrls imagesUrls = new ImagesUrls(this);
-        ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
-        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(imagesUrls.imageUrls_left1));
-        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(imagesUrls.imageUrls_right1));
-        listBuddies.setAdapters(adapter, adapter2);
+//        ImagesUrls imagesUrls = new ImagesUrls(this);
+//        ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
+//        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(imagesUrls.imageUrls_left1));
+//        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(imagesUrls.imageUrls_right1));
+//        listBuddies.setAdapters(adapter, adapter2);
 
-        listBuddies.setOnItemClickListener(this);
+//        listBuddies.setOnItemClickListener(this);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ImagesUrls imagesUrls = new ImagesUrls(this);
+        listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
+        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(imagesUrls.imageUrls_left1));
+        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(imagesUrls.imageUrls_right1));
+        listBuddies.setAdapters(adapter, adapter2);
+        listBuddies.setOnItemClickListener(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

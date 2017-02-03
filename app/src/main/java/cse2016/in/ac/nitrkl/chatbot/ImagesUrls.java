@@ -28,13 +28,13 @@ public class ImagesUrls {
             R.drawable.ic_action_send_now
     };
     public final static Integer[] imageUrls_left3 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email
     };
 
     public final static Integer[] imageUrls_right1 = new Integer[]{
@@ -54,11 +54,11 @@ public class ImagesUrls {
     };
 
     public final static Integer[] imageUrls_right3 = new Integer[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email,
+            R.drawable.ic_email
     };
 
     public ImagesUrls(Context context) {
@@ -86,7 +86,7 @@ public class ImagesUrls {
             }
         }
 
-
+        myDB.close();
     }
 
 
