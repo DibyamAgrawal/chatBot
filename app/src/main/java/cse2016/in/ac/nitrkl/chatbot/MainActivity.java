@@ -75,8 +75,17 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
      */
     private GoogleApiClient client;
     //boolean to_prompt = false;
-    String[] questions ={"1","2","3","4","5","6","7","8","9","10"};
-    String[] answers = {"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10"};
+    String[] questions ={"It is a bachelor's degree in commerce and business administration. The degree is conferred after four years of full-time study in one or more areas of business concentrations.",
+            "Instruments that record, analyse, summarise, organise, debate and explain information; that are illustrated, non-illustrated, hardbound, paperback, jacketed, non-jacketed; with foreword, introduction, table of contents, index; that are indented for the enlightenment, understanding, enrichment, enhancement and education of the human brain through sensory route of vision - sometimes touch are kept here.",
+            "The art or practice of designing and constructing buildings.",
+            "A stomping ground on the national days. A colourful battle front during the fests.",
+            "Try and try till you don’t fly high. Or else jump and jump till you don’t hit the bump. All these are bogus things. All you need to do is find the synonym for Hamper and make sure it fits a 2D Sphere.",
+            "There is a thing, which has taken the statement, “Slow and Steady” too seriously and hasn’t moved an inch since long. It stays while people go past it all the while. When I was this little kid, I used to play around it. Which is this thing?",
+            "Atop the ground so high, like a Gamla in the sky.",
+            "8",
+            "9",
+            "10"};
+    String[] answers = {"BBA","Library","Architecture","NCC","Basket ball","Train","Water Tank","area8","area9","area10"};
 //    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
 
 
