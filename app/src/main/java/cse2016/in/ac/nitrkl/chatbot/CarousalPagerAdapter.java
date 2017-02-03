@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -13,11 +14,11 @@ import java.util.Random;
  * Created by LENOVO on 23-01-2017.
  */
 public class CarousalPagerAdapter extends PagerAdapter {
-    private final Random random = new Random();
+
     private int mSize;
 
     public CarousalPagerAdapter() {
-        mSize = 5;
+        mSize = 3;
     }
 
     public CarousalPagerAdapter(int count) {
@@ -37,15 +38,16 @@ public class CarousalPagerAdapter extends PagerAdapter {
     }
 
     @Override public Object instantiateItem(ViewGroup view, int position) {
-        TextView textView = new TextView(view.getContext());
-        textView.setText(String.valueOf(position + 1));
-        textView.setBackgroundColor(0xff000000 | random.nextInt(0x00ffffff));
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextColor(Color.WHITE);
-        textView.setTextSize(48);
-        view.addView(textView, ViewGroup.LayoutParams.MATCH_PARENT,
+        ImageView imageView = new ImageView(view.getContext());
+//        textView.setText(String.valueOf(position + 1));
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTextColor(Color.WHITE);
+//        textView.setTextSize(48);
+
+        imageView.setImageResource(AreaImages.imageArea1[CustomAnimationFragment.area_num][position]);
+        view.addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        return textView;
+        return imageView;
     }
 
     public void addItem() {

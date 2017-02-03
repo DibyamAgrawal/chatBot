@@ -20,6 +20,9 @@ public class CustomAnimationFragment extends AppCompatActivity {
     Timer timer;
     int page = 0;
     ViewPager viewpager;
+    DBAdapter2 myDB2;
+    static int area_num;
+
     public void pageSwitcher(int seconds) {
         timer = new Timer(); // At this line a new Thread will be created
         timer.scheduleAtFixedRate(new RemindTask(), 0, seconds * 1000); // delay
@@ -35,13 +38,13 @@ public class CustomAnimationFragment extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 public void run() {
 
-                    if (page > 4) { // In my case the number of pages are 5
+                    if (page > 2) { // In my case the number of pages are 5
                         timer.cancel();
                         // Showing a toast for just testing purpose
                     } else {
 
                         viewpager.setCurrentItem(page++);
-                        if (page == 5)
+                        if (page == 3)
                             page = 0;
                     }
                 }
@@ -71,13 +74,17 @@ public class CustomAnimationFragment extends AppCompatActivity {
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         viewpager.setAdapter(new CarousalPagerAdapter());
         indicator.setViewPager(viewpager);
-        pageSwitcher(2);
+        myDB2 = new DBAdapter2(this);
+        myDB2.open();
+        String area = getIntent().getStringExtra("area");
+         area_num = myDB2.getRow(area).getInt(myDB2.COL_ROWID);
+
+        pageSwitcher(1);
     }
 
     public void status(View view){
         String area = getIntent().getStringExtra("area");
-        DBAdapter2 myDB2 = new DBAdapter2(this);
-        myDB2.open();
+
 
         String botMsg = "";
 
@@ -105,12 +112,13 @@ public class CustomAnimationFragment extends AppCompatActivity {
         intent3.putExtra("level", 1);
         startActivity(intent3);
 
-        myDB2.close();
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         timer.cancel();
+        myDB2.close();
     }
 }
