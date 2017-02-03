@@ -81,14 +81,15 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
             "A stomping ground on the national days. A colourful battle front during the fests.",
             "Try and try till you don’t fly high. Or else jump and jump till you don’t hit the bump. All these are bogus things. All you need to do is find the synonym for Hamper and make sure it fits a 2D Sphere.",
             "There is a thing, which has taken the statement, “Slow and Steady” too seriously and hasn’t moved an inch since long. It stays while people go past it all the while. When I was this little kid, I used to play around it. Which is this thing?",
-            "Atop the ground so high, like a Gamla in the sky.",
-            "8",
-            "9",
-            "10"};
-    String[] answers = {"BBA","Library","Architecture","NCC","Basket ball","Train","Water Tank","area8","area9","area10"};
-//    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
+            "High and high, I deal with a sigh. Restricted and barriered this place speaks of tales those are not lies. A high reach tower like it stands and guards the whole of NIT.",
+            "Come back home.",
+            "I went to one of the best Spring Fest of Eastern India. I was astonished by its infrastructure but I have forgotten about one of its founders. Now when I see NITR, I get some vague memories of that person. He was the principal of Old NITR too.",
+            "Physics and Maths coexist. Chemistry and Life Science co survive. Civil being the helping hand in both the case."};
+    //----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    String[] answers = {"bba","library","architecture","ncc","basketball","train","watertank","sac","rajendramishra","mainbuilding"};
+//------------------------------------------------------------------------------------------------------------------------------
 
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
