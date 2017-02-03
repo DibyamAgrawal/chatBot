@@ -16,7 +16,7 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class CustomAnimationFragment extends AppCompatActivity {
+public class CustomAnimationFragment extends TtsActivity {
     Timer timer;
     int page = 0;
     ViewPager viewpager;
@@ -26,8 +26,6 @@ public class CustomAnimationFragment extends AppCompatActivity {
     public void pageSwitcher(int seconds) {
         timer = new Timer(); // At this line a new Thread will be created
         timer.scheduleAtFixedRate(new RemindTask(), 0, seconds * 1000); // delay
-        // in
-        // milliseconds
     }
     // this is an inner class...
     class RemindTask extends TimerTask {
@@ -103,7 +101,7 @@ public class CustomAnimationFragment extends AppCompatActivity {
             botMsg = myDB2.getRow(area).getString(myDB2.COL_STORY);
         }
 
-
+        speakOut(botMsg,1);
         Intent intent2 = new Intent(CustomAnimationFragment.this,ChatHeadService.class);
         startService(intent2);
 

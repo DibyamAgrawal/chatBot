@@ -20,9 +20,4 @@ public class AreaImages {
             {R.drawable.ic_action_send_now,R.drawable.ic_action_send_now, R.drawable.ic_action_send_now,}
 
     };
-
-
-
-
-
 }

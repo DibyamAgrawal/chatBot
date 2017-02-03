@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener {
+public class MainActivity extends TtsActivity implements AIListener, ListBuddiesLayout.OnBuddyItemClickListener {
 
     public TextView resultTextView;
     AIDataService aiDataService;
@@ -384,6 +384,8 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                     intent.putExtra("area",res);
                                     startActivity(intent);
                                     String botMsg = mydb.getRow2(res,1).getString(mydb.COL_QUESTION2);
+
+
                                     Intent intent2 = new Intent(MainActivity.this,ChatHeadService.class);
                                     startService(intent2);
                                     Intent intent3 = new Intent(MainActivity.this,BOT.class);
@@ -391,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                     intent3.putExtra("level",1);
                                     Log.i("botMsg", botMsg);
                                     startActivity(intent3);
+                                    speakOut(botMsg,1);
 
 //                                    BOT.generateLevel1(botMsg);
 
