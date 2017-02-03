@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,17 +22,20 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
             android:name=".BOT"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity android:name=".CustomAnimationFragment"
+            android:screenOrientation="portrait"
                   android:label="carousal"
                   android:theme="@style/AppTheme.NoActionBar">
 
