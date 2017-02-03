@@ -139,7 +139,16 @@ public class LoginActivity extends AppCompatActivity {
                         "mirror","highway","deadbody"
     };
     //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    String[] blno2 = {"blno11","blno12","blno13","blno21","blno22","blno23","blno31","blno32","blno33","blno41","blno42","blno43","blno51","blno52","blno53","blno61","blno62","blno63","blno71","blno72","blno73","blno81","blno82","blno83","blno91","blno92","blno93","blno101","blno102","blno103"};
+    String[] blno2 = {"Turn to Marker 5","Turn to Marker 29","Turn to Marker 23",
+                    "Turn to Marker 21","Turn to Marker 8","Turn to Marker 9",
+                    "Turn to Marker 26","Turn to Marker 12","Turn to Marker 1",
+                    "Turn to Marker 3","Turn to Marker 20","Turn to Marker 16",
+                    "Turn to Marker 11","Turn to Marker 10","Turn to Marker 27",
+                    "Turn to Marker 22","Turn to Marker 6","Turn to Marker 7",
+                    "Turn to Marker 15","Turn to Marker 19","Turn to Marker 14",
+                    "Turn to Marker 4","Turn to Marker 13","Turn to Marker 17",
+                    "Turn to Marker 2","Turn to Marker 25","Turn to Marker 30",
+                    "Turn to Marker 18","Turn to Marker 24","Turn to Marker 28"};
 
 
     @Override
