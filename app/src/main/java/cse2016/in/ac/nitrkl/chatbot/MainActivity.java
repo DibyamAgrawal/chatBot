@@ -75,8 +75,8 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
      */
     private GoogleApiClient client;
     //boolean to_prompt = false;
-    String[] questions ={"1","2","3","4","5","6","7","8","9","10","11","12"};
-    String[] answers = {"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10","area11","area12"};
+    String[] questions ={"1","2","3","4","5","6","7","8","9","10"};
+    String[] answers = {"area1","area2","area3","area4","area5","area6","area7","area8","area9","area10"};
 //    boolean[] to_prompt = {false,false,false,false,false,false,false,false,false,false,false,false,};
 
 
@@ -341,7 +341,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         }
         else {
             flag=1;
-            i = 7 + position;
+            i = 6 + position;
             res = answers[i];
             ques = questions[i];
         }

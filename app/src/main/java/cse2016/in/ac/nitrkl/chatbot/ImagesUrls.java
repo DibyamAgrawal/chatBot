@@ -14,12 +14,10 @@ public class ImagesUrls {
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
             R.mipmap.ic_launcher
     };
 
     public final static Integer[] imageUrls_left2 = new Integer[]{
-            R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now,
@@ -33,12 +31,10 @@ public class ImagesUrls {
             R.drawable.ic_email,
             R.drawable.ic_email,
             R.drawable.ic_email,
-            R.drawable.ic_email,
             R.drawable.ic_email
     };
 
     public final static Integer[] imageUrls_right1 = new Integer[]{
-            R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
@@ -49,7 +45,6 @@ public class ImagesUrls {
             R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now,
-            R.drawable.ic_action_send_now,
             R.drawable.ic_action_send_now
     };
 
@@ -57,8 +52,8 @@ public class ImagesUrls {
             R.drawable.ic_email,
             R.drawable.ic_email,
             R.drawable.ic_email,
-            R.drawable.ic_email,
             R.drawable.ic_email
+
     };
 
     public ImagesUrls(Context context) {
@@ -67,21 +62,21 @@ public class ImagesUrls {
         myDB.open();
 
 
-        for(int i=0;i<12;i++){
+        for(int i=0;i<10;i++){
             if(myDB.getRow(LoginActivity.areas[i]).getInt(myDB.COL_LOCK)==1){
-                if (i < 7){
+                if (i < 6){
                     imageUrls_left1[i] = imageUrls_left2[i];
                 }
                 else{
-                    imageUrls_right1[i-7] = imageUrls_right2[i-7];
+                    imageUrls_right1[i-6] = imageUrls_right2[i-6];
                 }
             }
             if(myDB.getRow(LoginActivity.areas[i]).getInt(myDB.COL_SOLVED)==1){
-                if (i < 7){
+                if (i < 6){
                     imageUrls_left1[i] = imageUrls_left3[i];
                 }
                 else{
-                    imageUrls_right1[i-7] = imageUrls_right3[i-7];
+                    imageUrls_right1[i-6] = imageUrls_right3[i-6];
                 }
             }
         }
