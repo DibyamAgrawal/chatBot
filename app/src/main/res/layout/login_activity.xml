@@ -2,35 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_vertical"
     android:layout_margin="@dimen/activity_horizontal_margin"
-    android:gravity="center_vertical"
-    android:background="@drawable/login"
+    android:background="@drawable/log"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/game"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enter Game Code" />
+        android:orientation="horizontal"
+        android:weightSum="100">
 
         <EditText
             android:id="@+id/enter_game"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="70"
+            android:hint="Enter Game Code"/>
+        <Button
+            android:id="@+id/enterButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:text="Enter" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/enterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Enter" />
 
 </LinearLayout>
