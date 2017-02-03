@@ -90,7 +90,7 @@ public class ChatHeadService extends Service implements FloatingViewListener {
         mFloatingViewManager.addViewToWindow(iconView, options);
 
         // 常駐起動
-        startForeground(NOTIFICATION_ID, createNotification());
+//        startForeground(NOTIFICATION_ID, createNotification());
 
         return START_REDELIVER_INTENT;
     }
@@ -137,16 +137,16 @@ public class ChatHeadService extends Service implements FloatingViewListener {
      * 通知を表示します。
      * クリック時のアクションはありません。
      */
-    private Notification createNotification() {
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setWhen(System.currentTimeMillis());
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("deepika3");
-        builder.setContentText("deepika2");
-        builder.setOngoing(true);
-        builder.setPriority(NotificationCompat.PRIORITY_MIN);
-        builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
-
-        return builder.build();
-    }
+//    private Notification createNotification() {
+//        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//        builder.setWhen(System.currentTimeMillis());
+//        builder.setSmallIcon(R.mipmap.ic_launcher);
+//        builder.setContentTitle("deepika3");
+//        builder.setContentText("deepika2");
+//        builder.setOngoing(true);
+//        builder.setPriority(NotificationCompat.PRIORITY_MIN);
+//        builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
+//
+//        return builder.build();
+//    }
 }

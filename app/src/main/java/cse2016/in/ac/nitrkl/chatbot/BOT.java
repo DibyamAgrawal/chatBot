@@ -253,7 +253,7 @@ public class BOT extends TtsActivity {
     };
 
     public void generateLevel1(String botMsg) {
-        speakOut(botMsg, (float) 1);
+        speakOut(botMsg, 1);
         Log.i("bot",botMsg);
         chatArrayAdapter.add(new ChatMessage(false, botMsg));
         myDB.insertRow("", botMsg);

@@ -2,10 +2,12 @@ package cse2016.in.ac.nitrkl.chatbot;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -103,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
         aiRequest.setQuery("Give me a clue");
-        ImagesUrls ImagesUrls = new ImagesUrls(this);
+        ImagesUrls imagesUrls = new ImagesUrls(this);
         ListBuddiesLayout listBuddies = (ListBuddiesLayout) findViewById(R.id.listbuddies);
-        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(ImagesUrls.imageUrls_left1));
-        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(ImagesUrls.imageUrls_right1));
+        CircularAdapter adapter = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size1), Arrays.asList(imagesUrls.imageUrls_left1));
+        CircularAdapter adapter2 = new CircularAdapter(this, getResources().getDimensionPixelSize(R.dimen.image_size2), Arrays.asList(imagesUrls.imageUrls_right1));
         listBuddies.setAdapters(adapter, adapter2);
 
         listBuddies.setOnItemClickListener(this);
@@ -132,7 +134,48 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.score) {
+            int score = 0;
+            int level=0;
+            //calculare score
+            Cursor cursor = mydb.getAllRows();
+            do {
+                level = cursor.getInt(mydb.COL_LEVEL)-1;
+                if(level <4){
+                    score+=level*20;
+                }
+                if(level==4){
+                    score+=100;
+                }
+            }while(cursor.moveToNext());
+
+            LayoutInflater li = LayoutInflater.from(context);
+            View scoreView = li.inflate(R.layout.score, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    context);
+
+
+            alertDialogBuilder.setView(scoreView);
+            final TextView message = (TextView)scoreView.findViewById(R.id.score);
+            message.setText(score+"");
+
+            // set dialog message
+
+            alertDialogBuilder
+                    .setCancelable(true)
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+
+
+
             return true;
         }
 
