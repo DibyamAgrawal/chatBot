@@ -32,7 +32,7 @@ public class CustomAnimationFragment extends TtsActivity {
             "Atop the ground so high, like a Gamla in the sky.",
             "A home to all the people during the fests and other curricular activities.",
             "A pretty place where all the exhibitions took place. I have fond memories of arts and exhibitions from this place.",
-            "brief10"
+            "This is the last step of our journey. Hope we make through it. We enter the administrative area this whole set up. Let’s make it a good one."
     };
     public void pageSwitcher(int seconds) {
         timer = new Timer(); // At this line a new Thread will be created
