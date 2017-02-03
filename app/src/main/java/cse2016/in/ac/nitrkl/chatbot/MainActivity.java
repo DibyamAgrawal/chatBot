@@ -358,6 +358,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         if (mydb.getRow(res).getInt(mydb.COL_LOCK) == 1) {
             Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomAnimationFragment.class);
+            intent.putExtra("areaId",i);
             intent.putExtra("area",res);
             startActivity(intent);
         } else {
@@ -383,7 +384,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         // set dialog message
 
         alertDialogBuilder
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -401,6 +402,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
                                         ImagesUrls.imageUrls_right1[pos]= ImagesUrls.imageUrls_right2[pos];
 
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
+                                    intent.putExtra("areaId",i);
                                     intent.putExtra("area",res);
                                     startActivity(intent);
                                     String botMsg = mydb.getRow2(res,1).getString(mydb.COL_QUESTION2);

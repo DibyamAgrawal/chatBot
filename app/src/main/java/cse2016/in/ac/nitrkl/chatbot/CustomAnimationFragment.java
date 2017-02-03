@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,7 +23,17 @@ public class CustomAnimationFragment extends TtsActivity {
     ViewPager viewpager;
     DBAdapter2 myDB2;
     static int area_num;
-
+    String[] hint = {"This is the first of my memory that is still afresh. Childhood memories are always the fondest and they stay longer than other memories.",
+            "This area also has a part of my childhood hidden in it. I always had an inclination towards books, people, writings, quotes, words and a lot of things.",
+            "I don’t have any good vibes of this place. I am not sure why. Maybe, some incident had happened sometime. I don’t want to remember any part of it. But it’s necessary for decoding the key.",
+            "This is one of my favourite places. Some of my favourite memories are stored.",
+            "This is one of my favourite hunting grounds. I used to play along this area. Another reason why I remember this is, it was a unique way of someone telling me something.",
+            "A play spot when I was a little kid. It was scenic to me then. Just like the ones I used to see in cartoon. I used to climb upon it and used to act out as a driver.",
+            "Atop the ground so high, like a Gamla in the sky.",
+            "A home to all the people during the fests and other curricular activities.",
+            "A pretty place where all the exhibitions took place. I have fond memories of arts and exhibitions from this place.",
+            "brief10"
+    };
     public void pageSwitcher(int seconds) {
         timer = new Timer(); // At this line a new Thread will be created
         timer.scheduleAtFixedRate(new RemindTask(), 0, seconds * 1000); // delay
@@ -74,9 +85,11 @@ public class CustomAnimationFragment extends TtsActivity {
         indicator.setViewPager(viewpager);
         myDB2 = new DBAdapter2(this);
         myDB2.open();
+        int areaId = getIntent().getIntExtra("areaId",-1);
         String area = getIntent().getStringExtra("area");
-         area_num = myDB2.getRow(area).getInt(myDB2.COL_ROWID);
-
+        area_num = myDB2.getRow(area).getInt(myDB2.COL_ROWID);
+        TextView textView = (TextView) findViewById(R.id.hint);
+        textView.setText(hint[areaId]);
         pageSwitcher(1);
     }
 
