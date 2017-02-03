@@ -329,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements AIListener, ListB
                                // result.setText(userInput.getText());
                                 String input = userInput.getText().toString();
 
+
                                 if(input.equals(res)){
 //                                    to_prompt[i]=true;
                                     if(flag==0)
