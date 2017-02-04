@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                         "vaddeyratner",
                         "badbarbies",
                         "khandadharfalls",
-                        "June30",
+                        "june30",
                         "batterseapowerstation",
                         "halleyscomet",
                         "youtube",
