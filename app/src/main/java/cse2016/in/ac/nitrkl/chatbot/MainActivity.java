@@ -65,9 +65,9 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
     AIRequest aiRequest;
     private TextToSpeech tts;
     final Context context = this;
-    String res,ques ;
+    String res, ques;
     DBAdapter2 mydb;
-    int pos,flag;
+    int pos, flag;
     ListBuddiesLayout listBuddies;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -75,7 +75,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
      */
     private GoogleApiClient client;
     //boolean to_prompt = false;
-    String[] questions ={"It is a bachelor's degree in commerce and business administration. The degree is conferred after four years of full-time study in one or more areas of business concentrations.",
+    String[] questions = {"It is a bachelor's degree in commerce and business administration. The degree is conferred after four years of full-time study in one or more areas of business concentrations.",
             "Instruments that record, analyse, summarise, organise, debate and explain information; that are illustrated, non-illustrated, hardbound, paperback, jacketed, non-jacketed; with foreword, introduction, table of contents, index; that are indented for the enlightenment, understanding, enrichment, enhancement and education of the human brain through sensory route of vision - sometimes touch are kept here.",
             "The art or practice of designing and constructing buildings.",
             "A stomping ground on the national days. A colourful battle front during the fests.",
@@ -86,10 +86,10 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
             "I went to one of the best Spring Fest of Eastern India. I was astonished by its infrastructure but I have forgotten about one of its founders. Now when I see NITR, I get some vague memories of that person. He was the principal of Old NITR too.",
             "Physics and Maths coexist. Chemistry and Life Science co survive. Civil being the helping hand in both the case."};
     //----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    String[] answers = {"bba","library","architecture","ncc","basketball","train","watertank","sac","rajendramishra","mainbuilding"};
+    String[] answers = {"bba", "library", "architecture", "ncc", "basketball", "train", "watertank", "sac", "rajendramishra", "mainbuilding"};
 //------------------------------------------------------------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +105,15 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
-        if (!Settings.canDrawOverlays(this)) {
-            /** if not construct intent to request permission */
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            /** request permission via start activity for result */
-            startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            Log.i("valval",Build.VERSION.SDK_INT+":"+Build.VERSION_CODES.LOLLIPOP);
+            if (!Settings.canDrawOverlays(this)) {
+                /** if not construct intent to request permission */
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                /** request permission via start activity for result */
+                startActivity(intent);
+            }
         }
 
         aiDataService = new AIDataService(config);
@@ -157,18 +160,18 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         //noinspection SimplifiableIfStatement
         if (id == R.id.score) {
             int score = 0;
-            int level=0;
+            int level = 0;
             //calculare score
             Cursor cursor = mydb.getAllRows();
             do {
-                level = cursor.getInt(mydb.COL_LEVEL)-1;
-                if(level <4){
-                    score+=level*20;
+                level = cursor.getInt(mydb.COL_LEVEL) - 1;
+                if (level < 4) {
+                    score += level * 20;
                 }
-                if(level==4){
-                    score+=100;
+                if (level == 4) {
+                    score += 100;
                 }
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
 
             LayoutInflater li = LayoutInflater.from(context);
             View scoreView = li.inflate(R.layout.score, null);
@@ -177,8 +180,8 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
 
 
             alertDialogBuilder.setView(scoreView);
-            final TextView message = (TextView)scoreView.findViewById(R.id.score);
-            message.setText(score+"");
+            final TextView message = (TextView) scoreView.findViewById(R.id.score);
+            message.setText(score + "");
 
             // set dialog message
 
@@ -194,16 +197,16 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 
-
-
-
             return true;
         }
-
+        if (id == R.id.bot) {
+            chat();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    public void chat(View v) {
+    public void chat() {
 
         Intent intent1 = new Intent(this, ChatHeadService.class);
         startService(intent1);
@@ -338,29 +341,29 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
     int i;
 
     @Override
     public void onBuddyItemClicked(AdapterView<?> parent, View view, int buddy, int position, long id) {
-        pos=position;
-        if(buddy==0) {
+        pos = position;
+        if (buddy == 0) {
             i = position;
-            flag=0;
+            flag = 0;
             res = answers[i];
             ques = questions[i];
-        }
-        else {
-            flag=1;
+        } else {
+            flag = 1;
             i = 6 + position;
             res = answers[i];
             ques = questions[i];
         }
 
         if (mydb.getRow(res).getInt(mydb.COL_LOCK) == 1) {
-            Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "buddy:" + buddy + " position:" + position, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CustomAnimationFragment.class);
-            intent.putExtra("areaId",i);
-            intent.putExtra("area",res);
+            intent.putExtra("areaId", i);
+            intent.putExtra("area", res);
             startActivity(intent);
         } else {
             alertDialog1();
@@ -377,7 +380,7 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-        final TextView message = (TextView)promptsView.findViewById(R.id.textView1);
+        final TextView message = (TextView) promptsView.findViewById(R.id.textView1);
         message.setText(ques);
         final EditText userInput = (EditText) promptsView
                 .findViewById(R.id.editTextDialogUserInput);
@@ -391,32 +394,32 @@ public class MainActivity extends TtsActivity implements AIListener, ListBuddies
                             public void onClick(DialogInterface dialog, int id) {
                                 // get user input and set it to result
                                 // edit text
-                               // result.setText(userInput.getText());
+                                // result.setText(userInput.getText());
                                 String input = userInput.getText().toString();
 
 
-                                if(input.equals(res)){
+                                if (input.equals(res)) {
 //                                    to_prompt[i]=true;
-                                    if(flag==0)
-                                        ImagesUrls.imageUrls_left1[pos]= ImagesUrls.imageUrls_left2[pos];
+                                    if (flag == 0)
+                                        ImagesUrls.imageUrls_left1[pos] = ImagesUrls.imageUrls_left2[pos];
                                     else
-                                        ImagesUrls.imageUrls_right1[pos]= ImagesUrls.imageUrls_right2[pos];
+                                        ImagesUrls.imageUrls_right1[pos] = ImagesUrls.imageUrls_right2[pos];
 
                                     Intent intent = new Intent(MainActivity.this, CustomAnimationFragment.class);
-                                    intent.putExtra("areaId",i);
-                                    intent.putExtra("area",res);
+                                    intent.putExtra("areaId", i);
+                                    intent.putExtra("area", res);
                                     startActivity(intent);
-                                    String botMsg = mydb.getRow2(res,1).getString(mydb.COL_QUESTION2);
+                                    String botMsg = mydb.getRow2(res, 1).getString(mydb.COL_QUESTION2);
 
 
-                                    Intent intent2 = new Intent(MainActivity.this,ChatHeadService.class);
+                                    Intent intent2 = new Intent(MainActivity.this, ChatHeadService.class);
                                     startService(intent2);
-                                    Intent intent3 = new Intent(MainActivity.this,BOT.class);
-                                    intent3.putExtra("botMsg",botMsg);
-                                    intent3.putExtra("level",1);
+                                    Intent intent3 = new Intent(MainActivity.this, BOT.class);
+                                    intent3.putExtra("botMsg", botMsg);
+                                    intent3.putExtra("level", 1);
                                     Log.i("botMsg", botMsg);
                                     startActivity(intent3);
-                                    speakOut(botMsg,1);
+                                    //speakOut(botMsg,1);
 
 //                                    BOT.generateLevel1(botMsg);
 

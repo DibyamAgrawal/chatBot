@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="48dp"
+        app:ci_animator="@animator/indicator_animator"
+        app:ci_animator_reverse="@animator/indicator_animator_reverse"
+        app:ci_drawable="@drawable/black_radius_square"
+        app:ci_height="4dp"
+        app:ci_margin="6dp"
+        app:ci_width="10dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,18 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp" />
 
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="48dp"
-            app:ci_animator="@animator/indicator_animator"
-            app:ci_animator_reverse="@animator/indicator_animator_reverse"
-            app:ci_drawable="@drawable/black_radius_square"
-            app:ci_height="4dp"
-            app:ci_margin="6dp"
-            app:ci_width="10dp" />
+
 
         <Button
             android:id="@+id/status"
@@ -51,4 +51,12 @@
                 android:textSize="18dp" />
         </LinearLayout>
     </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/vr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="vr"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_menu_camera" />
 </FrameLayout>

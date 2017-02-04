@@ -6,11 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -97,6 +104,34 @@ public class BOT extends TtsActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_pause, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.pause) {
+            speakOut("",1);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private boolean sendChatMessage() {
         final String userMsg = chatText.getText().toString();
         chatArrayAdapter.add(new ChatMessage(true, userMsg));
@@ -104,6 +139,11 @@ public class BOT extends TtsActivity {
 
         if(userMsg.toCharArray()[0] == '#'){
             getAnswer(userMsg);
+            return true;
+        }
+
+        if(!isNetworkAvailable()){
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -181,6 +221,9 @@ public class BOT extends TtsActivity {
                 myDB2.updateLevel(cursor.getString(myDB2.COL_AREA), cursor.getInt(myDB2.COL_LEVEL) + 1);
                 String message = cursor.getString(myDB2.COL_STORY);
                 botMessage(userMsgs,message);
+
+                theEnd();
+
                 break;
             }
             else{
@@ -192,6 +235,26 @@ public class BOT extends TtsActivity {
             botMessage(userMsgs,"PLease Try Again");
         }
 
+    }
+
+    private void theEnd() {
+        //if all solved... then show message
+        int c=0;
+        int d=0;
+        Cursor cursor = myDB2.getAllRows();
+        do {
+            d++;
+            if(cursor.getInt(myDB2.COL_LEVEL)==5){
+                c++;
+            }
+            else{
+                break;
+            }
+        }while (cursor.moveToNext());
+        String msg = "Final Ending Message";
+        if(c==d){
+            botMessage("",msg);
+        }
     }
 
     private void botMessage(String userMsg,String botMsg) {

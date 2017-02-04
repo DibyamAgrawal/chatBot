@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/gap"
     android:paddingRight="@dimen/gap"
-    android:background="@drawable/homepage_purple"
+    android:background="@drawable/homepage_blank1"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cse2016.in.ac.nitrkl.chatbot.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chat"
-        android:id="@+id/chat"
-        android:onClick="chat"
-        android:layout_centerHorizontal="true" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Chat"-->
+        <!--android:id="@+id/chat"-->
+        <!--android:onClick="chat"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
 
     <com.jpardogo.listbuddies.lib.views.ListBuddiesLayout

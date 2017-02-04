@@ -24,7 +24,7 @@ import static android.widget.Toast.LENGTH_SHORT;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    String code,password="uc2017";
+    String code,password="fallin";
     EditText enterCode;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         "I have been attracted to the stories of things that are high up in the sky and Halley’s Comet is one of them. 1910 was the year when Halley’s Comet brushed its tail just past the Earth. Had it been a little more closer, Earth would have been a history now. Move fast or else I will be in the history books forever.",
                         "YouTube was a sharing platform where people came together and shared things. There was this YouTube Youth Fest. People from different spheres of life were selected to showcase their ideas for the betterment of this place. I had got selected for the same and it was supposed to be held at Pune that year.",
                         "Finally, a link that will help me to get out. A sea link it is. I remember this very well. A trip it was with my friends. A trip bound to be remembered a lifetime. A getaway from the monotonous life and an exhilarating experience. We are close, close enough. We have crossed over the bridge. Let’s cross over the final frontier now.",
-                        "I get it right now. I am trapped in a world from where there is no escape. I no more have a form. A soul trapped in a world of augmented reality. No more of the desires, no more of the wants. I didn’t have any memory till today. I have it now atleast. Thank you for your trial, thank you for your patience. Maybe the final clue will be a reward to you. Solve it in."
+                        "I get it right now. I am trapped in a world from where there is no escape. I no more have a form. A soul trapped in a world of augmented reality. No more of the desires, no more of the wants. I didn’t have any memory till today. I have it now atleast. Thank you for your trial, thank you for your patience. Once you are fully done, get yourself home even if I couldn't."
     };
 
     //----------------------------------------------------------------------------------------------------------------------------------------------

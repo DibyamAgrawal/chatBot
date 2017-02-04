@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="Score"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/bot"
+        android:orderInCategory="100"
+        android:icon="@drawable/bott"
+        android:title="Bot"
+        app:showAsAction="ifRoom" />
 </menu>

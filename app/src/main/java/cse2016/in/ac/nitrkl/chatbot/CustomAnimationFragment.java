@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -114,7 +116,7 @@ public class CustomAnimationFragment extends TtsActivity {
             botMsg = myDB2.getRow(area).getString(myDB2.COL_STORY);
         }
 
-        speakOut(botMsg,1);
+//        speakOut(botMsg,1);
         Intent intent2 = new Intent(CustomAnimationFragment.this,ChatHeadService.class);
         startService(intent2);
 
@@ -123,7 +125,17 @@ public class CustomAnimationFragment extends TtsActivity {
         intent3.putExtra("level", 1);
         startActivity(intent3);
 
+    }
 
+    public void vr(View view){
+        String packageName = "com.temp.UC";
+        Intent mIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+        if (mIntent != null) {
+            startActivity(mIntent);
+        }
+        else {
+            Toast.makeText(this,"Scanner Not Found",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
