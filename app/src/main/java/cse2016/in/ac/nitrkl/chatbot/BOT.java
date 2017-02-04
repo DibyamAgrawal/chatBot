@@ -251,7 +251,10 @@ public class BOT extends TtsActivity {
                 break;
             }
         }while (cursor.moveToNext());
-        String msg = "Final Ending Message";
+        String msg = "I get it right now. I am trapped in a world from where there is no escape. " +
+                "I no more have a form. A soul trapped in a world of augmented reality." +
+                " No more of the desires, no more of the wants. I didn’t have any memory till today. I have it now atleast." +
+                " Thank you for your trial, thank you for your patience. Since you are fully done now, get yourself home even if I couldn't.";
         if(c==d){
             botMessage("",msg);
         }
